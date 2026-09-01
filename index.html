@@ -95,25 +95,30 @@ body{
 .opening-orb::before{
   content:"";
   position:absolute;
-  inset:6%;
+  inset:0;
   border-radius:50%;
+  padding:1px;
 
-  background:
-    conic-gradient(
-      from 45deg,
-      transparent,
-      rgba(115,225,255,.35),
-      transparent 24%,
-      rgba(255,185,80,.28),
-      transparent 48%,
-      rgba(220,120,255,.34),
-      transparent 72%,
-      rgba(115,225,255,.25),
-      transparent
-    );
+  background:conic-gradient(
+    from 45deg,
+    rgba(255,215,140,.28),
+    rgba(255,140,200,.22),
+    rgba(140,215,255,.34),
+    rgba(160,255,210,.18),
+    rgba(195,145,255,.24),
+    rgba(255,215,140,.28)
+  );
 
-  filter:blur(3px);
-  opacity:.9;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+
+  -webkit-mask-composite:xor;
+  mask-composite:exclude;
+
+  filter:blur(.6px);
+  opacity:.72;
+  pointer-events:none;
 }
 
 .opening-orb::after{
