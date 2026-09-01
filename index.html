@@ -203,27 +203,7 @@ background-repeat: no-repeat;
   }
 }
 
-@keyframes lowerMembrane{
-  0%{
-    opacity:0;
-    transform:translate(-50%,-35%) scale(.2);
-  }
 
-  18%{
-    opacity:.95;
-    transform:translate(-50%,-20%) scale(2.8);
-  }
-
-  58%{
-    opacity:.85;
-    transform:translate(-50%,5%) scale(3.2,2.3);
-  }
-
-  100%{
-    opacity:0;
-    transform:translate(-50%,65%) scale(3.5,.25);
-  }
-}
 
 @keyframes dropletSpray{
   0%{
@@ -1221,17 +1201,17 @@ if (openingScene) {
   /* brief darkness, then first words */
   setTimeout(() => {
     openingScene.classList.add("show-first");
-  }, 5900);
+  }, 6400);
 
   /* "Right now." */
   setTimeout(() => {
     openingScene.classList.add("show-now");
-  }, 8900);
+  }, 9400);
 
   /* dissolve into existing forest */
   setTimeout(() => {
     openingScene.classList.add("open-forest");
-  }, 11100);
+  }, 11800);
 
 }
 /* =========================================
