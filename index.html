@@ -54,85 +54,20 @@ body{
 
   opacity:0;
 
-  background:
-    radial-gradient(
-      circle at 32% 27%,
-      rgba(255,255,255,.88) 0 3%,
-      rgba(235,248,255,.42) 5%,
-      rgba(210,240,255,.15) 15%,
-      rgba(255,255,255,.04) 34%,
-      transparent 58%
-    ),
-    radial-gradient(
-      circle at 72% 68%,
-      rgba(255,175,220,.12) 0%,
-      transparent 44%
-    ),
-    radial-gradient(
-      circle at 26% 76%,
-      rgba(135,225,255,.14) 0%,
-      transparent 42%
-    ),
-    radial-gradient(
-      circle at 50% 50%,
-      rgba(255,255,255,.035) 0%,
-      rgba(215,240,255,.018) 55%,
-      transparent 78%
-    );
+  background-image: url("glass-orb.png");
+background-size: contain;
+background-position: center;
+background-repeat: no-repeat;
 
   border:none;
 
-  box-shadow:
-    inset 7px 7px 18px rgba(255,255,255,.24),
-    inset -7px -9px 18px rgba(255,170,215,.13),
-    inset 4px 5px 16px rgba(150,225,255,.16),
-    0 0 14px rgba(180,220,255,.12),
-    0 0 26px rgba(190,145,255,.07);
+  
 
   will-change:transform,opacity;
 }
 
-.opening-orb::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  border-radius:50%;
-  padding:1px;
 
-  background:conic-gradient(
-    from 45deg,
-    rgba(255,215,140,.28),
-    rgba(255,140,200,.22),
-    rgba(140,215,255,.34),
-    rgba(160,255,210,.18),
-    rgba(195,145,255,.24),
-    rgba(255,215,140,.28)
-  );
 
-  -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-
-  -webkit-mask-composite:xor;
-  mask-composite:exclude;
-
-  filter:blur(.6px);
-  opacity:.72;
-  pointer-events:none;
-}
-
-.opening-orb::after{
-  content:"";
-  position:absolute;
-  width:19%;
-  height:11%;
-  left:22%;
-  top:17%;
-  border-radius:50%;
-  background:rgba(255,255,255,.9);
-  filter:blur(2px);
-  transform:rotate(-25deg);
-}
 
 .opening-burst{
   position:absolute;
