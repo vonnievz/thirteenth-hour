@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Thirteenth Hour</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+  margin:0;
+  min-height:100%;
+  font-family:Georgia, "Times New Roman", serif;
+}
+
+body{
+  min-height:100vh;
+  overflow-x:hidden;
+  color:#f8f3e8;
+  background:
+    radial-gradient(circle at 50% 30%, #314a47 0%, #152927 35%, #081413 70%, #030807 100%);
+}
+
+/* subtle stars */
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.6;
+  background-image:
+    radial-gradient(circle at 15% 20%, white 0 1px, transparent 2px),
+    radial-gradient(circle at 82% 14%, white 0 1px, transparent 2px),
+    radial-gradient(circle at 73% 66%, white 0 1px, transparent 2px),
+    radial-gradient(circle at 24% 75%, white 0 1px, transparent 2px),
+    radial-gradient(circle at 90% 48%, white 0 1px, transparent 2px);
+}
+
+/* PASSWORD SCREEN */
+
+#gate{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:30px 22px;
+  text-align:center;
+  transition:1s;
+}
+
+.small{
+  letter-spacing:5px;
+  text-transform:uppercase;
+  font-size:11px;
+  opacity:.7;
+  margin-bottom:18px;
+}
+
+h1{
+  font-weight:normal;
+  font-size:clamp(35px,10vw,58px);
+  margin:0;
+  line-height:1;
+  text-shadow:0 0 22px rgba(255,255,255,.18);
+}
+
+.thirteen{
+  font-size:clamp(100px,32vw,180px);
+  line-height:.9;
+  margin:20px 0 12px;
+  font-style:italic;
+  color:#fff;
+  text-shadow:
+    0 0 10px #fff,
+    0 0 25px #b8e8e4,
+    0 0 60px #74aaa6;
+}
+
+.riddle{
+  font-style:italic;
+  opacity:.78;
+  max-width:310px;
+  line-height:1.6;
+  margin:15px auto 22px;
+}
+
+.code{
+  display:flex;
+  gap:8px;
+  width:min(300px,90vw);
+}
+
+input{
+  width:100%;
+  border:1px solid rgba(255,255,255,.35);
+  border-radius:30px;
+  padding:15px 20px;
+  background:rgba(255,255,255,.08);
+  color:white;
+  text-align:center;
+  font-size:18px;
+  outline:none;
+}
+
+input::placeholder{
+  color:rgba(255,255,255,.45);
+}
+
+button{
+  border:1px solid rgba(255,255,255,.5);
+  background:rgba(255,255,255,.12);
+  color:white;
+  border-radius:50%;
+  width:52px;
+  height:52px;
+  font-size:20px;
+}
+
+#error{
+  height:25px;
+  margin-top:12px;
+  font-style:italic;
+  opacity:.7;
+}
+
+/* CRYSTAL SCREEN */
+
+#crystalScene{
+  display:none;
+  min-height:100vh;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  text-align:center;
+  padding:25px;
+}
+
+.crystal{
+  position:relative;
+  width:min(70vw,300px);
+  aspect-ratio:1;
+  border-radius:50%;
+  cursor:pointer;
+
+  background:
+    radial-gradient(circle at 34% 25%,
+      rgba(255,255,255,.95) 0%,
+      rgba(210,255,250,.40) 5%,
+      rgba(98,180,178,.18) 22%,
+      rgba(20,60,58,.28) 55%,
+      rgba(0,0,0,.4) 100%);
+
+  border:2px solid rgba(225,255,255,.65);
+
+  box-shadow:
+    inset -25px -30px 50px rgba(0,0,0,.55),
+    inset 18px 15px 35px rgba(255,255,255,.22),
+    0 0 15px rgba(205,255,250,.8),
+    0 0 60px rgba(100,205,195,.45),
+    0 35px 70px rgba(0,0,0,.8);
+
+  animation:float 4s ease-in-out infinite;
+}
+
+.crystal:before{
+  content:"";
+  position:absolute;
+  width:34%;
+  height:17%;
+  top:13%;
+  left:18%;
+  border-radius:50%;
+  transform:rotate(-35deg);
+  background:rgba(255,255,255,.38);
+  filter:blur(5px);
+}
+
+.crystal:after{
+  content:"13";
+  position:absolute;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:80px;
+  font-style:italic;
+  color:rgba(255,255,255,.14);
+  text-shadow:0 0 20px white;
+}
+
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-18px)}
+}
+
+.touch{
+  margin-top:50px;
+  letter-spacing:4px;
+  font-size:11px;
+  text-transform:uppercase;
+  opacity:.7;
+}
+
+/* INVITATION */
+
+#invitation{
+  display:none;
+  min-height:100vh;
+  padding:35px 18px 60px;
+  animation:reveal 1.7s ease;
+}
+
+@keyframes reveal{
+  from{
+    opacity:0;
+    filter:blur(18px);
+    transform:scale(.9);
+  }
+  to{
+    opacity:1;
+    filter:blur(0);
+    transform:scale(1);
+  }
+}
+
+.card{
+  width:min(430px,100%);
+  margin:auto;
+  position:relative;
+  overflow:hidden;
+  color:#332a26;
+
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #f5eee1 0px,
+      #f5eee1 28px,
+      #9f2630 28px,
+      #9f2630 56px
+    );
+
+  padding:12px;
+  border-radius:4px;
+  box-shadow:0 25px 80px rgba(0,0,0,.7);
+}
+
+.paper{
+  background:rgba(250,246,237,.96);
+  min-height:650px;
+  padding:42px 24px;
+  text-align:center;
+  border:1px solid #c8bda9;
+}
+
+.clock{
+  width:105px;
+  height:105px;
+  margin:0 auto 22px;
+  border:3px solid #292525;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  font-size:38px;
+  font-style:italic;
+}
+
+.clock:before{
+  content:"";
+  position:absolute;
+  width:2px;
+  height:35px;
+  background:#292525;
+  top:15px;
+  transform-origin:bottom;
+  transform:rotate(25deg);
+}
+
+.clock:after{
+  content:"";
+  position:absolute;
+  width:2px;
+  height:27px;
+  background:#292525;
+  top:23px;
+  transform-origin:bottom;
+  transform:rotate(130deg);
+}
+
+.invited{
+  text-transform:uppercase;
+  letter-spacing:4px;
+  font-size:12px;
+}
+
+.name{
+  font-size:44px;
+  font-weight:normal;
+  margin:12px 0 4px;
+}
+
+.age{
+  font-size:21px;
+  font-style:italic;
+  margin-bottom:30px;
+}
+
+.divider{
+  width:60px;
+  border-top:1px solid #74675d;
+  margin:25px auto;
+}
+
+.details{
+  font-size:18px;
+  line-height:1.7;
+}
+
+.details strong{
+  display:block;
+  text-transform:uppercase;
+  font-size:11px;
+  letter-spacing:3px;
+  margin-top:18px;
+}
+
+.movie{
+  margin-top:30px;
+  font-style:italic;
+  font-size:20px;
+}
+
+.chair{
+  margin-top:22px;
+  padding-top:20px;
+  border-top:1px solid #c9beb0;
+  font-size:14px;
+  letter-spacing:1px;
+}
+</style>
+</head>
+
+<body>
+
+<section id="gate">
+
+  <div class="small">You have been summoned</div>
+
+  <h1>The Thirteenth Hour</h1>
+
+  <div class="thirteen">13</div>
+
+  <div class="riddle">
+    Beyond the ordinary hours,<br>
+    one remains.
+  </div>
+
+  <div class="code">
+    <input
+      id="password"
+      inputmode="numeric"
+      placeholder="Enter the hour"
+      maxlength="2"
+    >
+    <button onclick="unlock()">→</button>
+  </div>
+
+  <div id="error"></div>
+
+</section>
+
+
+<section id="crystalScene">
+
+  <div class="small">The way is open</div>
+
+  <div class="crystal" onclick="revealInvitation()"></div>
+
+  <div class="touch">Touch the crystal</div>
+
+</section>
+
+
+<section id="invitation">
+
+  <div class="card">
+
+    <div class="paper">
+
+      <div class="clock">13</div>
+
+      <div class="invited">You're invited</div>
+
+      <h2 class="name">Vonnie</h2>
+
+      <div class="age">is turning 45</div>
+
+      <div class="divider"></div>
+
+      <div class="details">
+
+        <strong>Date</strong>
+        September 19, 2026
+
+        <strong>Time</strong>
+        5:30 PM
+
+        <strong>Where</strong>
+        1641 Ilene Ave<br>
+        Moapa, NV 89025
+
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="movie">
+        Eat &amp; watch a movie.
+      </div>
+
+      <div class="chair">
+        PLEASE BRING YOUR OWN CHAIR
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<script>
+
+const password = document.getElementById("password");
+
+password.addEventListener("keydown", function(event){
+  if(event.key === "Enter"){
+    unlock();
+  }
+});
+
+function unlock(){
+
+  const value = password.value.trim();
+
+  if(value === "13"){
+
+    document.getElementById("error").innerText = "";
+
+    const gate = document.getElementById("gate");
+
+    gate.style.opacity = "0";
+    gate.style.transform = "scale(1.1)";
+
+    setTimeout(function(){
+
+      gate.style.display = "none";
+
+      document.getElementById("crystalScene").style.display = "flex";
+
+    },900);
+
+  }else{
+
+    document.getElementById("error").innerText =
+      "That is not the hour.";
+
+    password.value = "";
+
+  }
+
+}
+
+
+function revealInvitation(){
+
+  const crystal =
+    document.getElementById("crystalScene");
+
+  crystal.style.transition = "1s";
+  crystal.style.opacity = "0";
+  crystal.style.transform = "scale(1.5)";
+
+  setTimeout(function(){
+
+    crystal.style.display = "none";
+
+    document.getElementById("invitation").style.display = "block";
+
+    window.scrollTo(0,0);
+
+  },900);
+
+}
+
+</script>
+
+</body>
+</html>
