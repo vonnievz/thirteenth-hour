@@ -73,23 +73,63 @@ background-repeat: no-repeat;
   position:absolute;
   left:50%;
   top:50%;
-  width:16px;
-  height:16px;
+  width:8px;
+  height:8px;
   transform:translate(-50%,-50%) scale(0);
-  border-radius:50%;
   opacity:0;
+  pointer-events:none;
+}
 
-  background:#fff;
+/* Lower half of the ruptured bubble */
+.opening-burst::before{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:110px;
+  height:58px;
+
+  border-left:3px solid rgba(125,225,255,.8);
+  border-right:3px solid rgba(255,150,225,.75);
+  border-bottom:4px solid rgba(255,220,145,.88);
+  border-top:0;
+
+  border-radius:0 0 60px 60px;
 
   box-shadow:
-    0 -70px 3px rgba(255,255,255,.9),
-    60px -40px 3px rgba(170,225,255,.85),
-    80px 15px 2px rgba(255,210,145,.9),
-    45px 65px 3px rgba(220,170,255,.9),
-    -20px 82px 2px rgba(255,255,255,.8),
-    -68px 48px 3px rgba(155,225,255,.8),
-    -78px -18px 2px rgba(255,195,245,.85),
-    -45px -60px 3px rgba(255,255,255,.9);
+    0 5px 10px rgba(120,220,255,.25),
+    inset 0 -4px 7px rgba(255,145,230,.25);
+
+  transform:translate(-50%,-5%) scale(.1);
+  opacity:0;
+}
+
+/* Droplets and torn membrane fragments */
+.opening-burst::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:4px;
+  height:4px;
+  border-radius:50%;
+
+  background:rgba(255,255,255,.95);
+
+  box-shadow:
+    -18px -38px 2px rgba(255,255,255,.9),
+     15px -52px 2px rgba(150,225,255,.9),
+    -38px -62px 3px rgba(255,170,225,.85),
+     42px -46px 2px rgba(255,220,145,.9),
+    -62px -28px 2px rgba(155,225,255,.8),
+     64px -18px 3px rgba(255,180,235,.82),
+    -78px  4px  2px rgba(255,215,150,.8),
+     82px  8px  2px rgba(160,225,255,.82),
+    -45px 30px  2px rgba(255,255,255,.7),
+     48px 34px  2px rgba(225,175,255,.72);
+
+  transform:translate(-50%,-50%) scale(.2);
+  opacity:0;
 }
 
 .opening-quote{
@@ -183,23 +223,76 @@ background-repeat: no-repeat;
 }
 
 .opening-scene.pop .opening-burst{
-  animation:crystalPop .35s ease-out forwards;
+  animation:crystalPop .55s ease-out forwards;
+}
+
+.opening-scene.pop .opening-burst::before{
+  animation:lowerMembrane .55s ease-out forwards;
+}
+
+.opening-scene.pop .opening-burst::after{
+  animation:dropletSpray .55s ease-out forwards;
 }
 
 @keyframes crystalPop{
   0%{
     opacity:1;
-    transform:translate(-50%,-50%) scale(.15);
+    transform:translate(-50%,-50%) scale(.2);
   }
 
-  35%{
+  20%{
     opacity:1;
-    transform:translate(-50%,-50%) scale(1.8);
+    transform:translate(-50%,-50%) scale(3);
   }
 
   100%{
     opacity:0;
-    transform:translate(-50%,-50%) scale(4.8);
+    transform:translate(-50%,-50%) scale(7);
+  }
+}
+
+@keyframes lowerMembrane{
+  0%{
+    opacity:0;
+    transform:translate(-50%,-35%) scale(.2);
+  }
+
+  18%{
+    opacity:.95;
+    transform:translate(-50%,-20%) scale(2.8);
+  }
+
+  58%{
+    opacity:.85;
+    transform:translate(-50%,5%) scale(3.2,2.3);
+  }
+
+  100%{
+    opacity:0;
+    transform:translate(-50%,65%) scale(3.5,.25);
+  }
+}
+
+@keyframes dropletSpray{
+  0%{
+    opacity:0;
+    transform:translate(-50%,-50%) scale(.25);
+    filter:blur(0);
+  }
+
+  12%{
+    opacity:1;
+  }
+
+  55%{
+    opacity:.9;
+    transform:translate(-50%,-90%) scale(4.5);
+  }
+
+  100%{
+    opacity:0;
+    transform:translate(-50%,-145%) scale(7);
+    filter:blur(1.5px);
   }
 }
 
