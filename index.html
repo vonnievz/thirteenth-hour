@@ -73,63 +73,17 @@ background-repeat: no-repeat;
   position:absolute;
   left:50%;
   top:50%;
-  width:8px;
-  height:8px;
+  width:100vw;
+  height:100dvh;
+
+  background-image:url("glass-pop.png");
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+
   transform:translate(-50%,-50%) scale(0);
   opacity:0;
   pointer-events:none;
-}
-
-/* Lower half of the ruptured bubble */
-.opening-burst::before{
-  content:"";
-  position:absolute;
-  left:50%;
-  top:50%;
-  width:110px;
-  height:58px;
-
-  border-left:3px solid rgba(125,225,255,.8);
-  border-right:3px solid rgba(255,150,225,.75);
-  border-bottom:4px solid rgba(255,220,145,.88);
-  border-top:0;
-
-  border-radius:0 0 60px 60px;
-
-  box-shadow:
-    0 5px 10px rgba(120,220,255,.25),
-    inset 0 -4px 7px rgba(255,145,230,.25);
-
-  transform:translate(-50%,-5%) scale(.1);
-  opacity:0;
-}
-
-/* Droplets and torn membrane fragments */
-.opening-burst::after{
-  content:"";
-  position:absolute;
-  left:50%;
-  top:50%;
-  width:4px;
-  height:4px;
-  border-radius:50%;
-
-  background:rgba(255,255,255,.95);
-
-  box-shadow:
-    -18px -38px 2px rgba(255,255,255,.9),
-     15px -52px 2px rgba(150,225,255,.9),
-    -38px -62px 3px rgba(255,170,225,.85),
-     42px -46px 2px rgba(255,220,145,.9),
-    -62px -28px 2px rgba(155,225,255,.8),
-     64px -18px 3px rgba(255,180,235,.82),
-    -78px  4px  2px rgba(255,215,150,.8),
-     82px  8px  2px rgba(160,225,255,.82),
-    -45px 30px  2px rgba(255,255,255,.7),
-     48px 34px  2px rgba(225,175,255,.72);
-
-  transform:translate(-50%,-50%) scale(.2);
-  opacity:0;
 }
 
 .opening-quote{
@@ -223,31 +177,29 @@ background-repeat: no-repeat;
 }
 
 .opening-scene.pop .opening-burst{
-  animation:crystalPop .55s ease-out forwards;
+  animation:crystalPop .75s ease-out forwards;
 }
 
-.opening-scene.pop .opening-burst::before{
-  animation:lowerMembrane .55s ease-out forwards;
-}
-
-.opening-scene.pop .opening-burst::after{
-  animation:dropletSpray .55s ease-out forwards;
-}
 
 @keyframes crystalPop{
   0%{
-    opacity:1;
-    transform:translate(-50%,-50%) scale(.2);
+    opacity:0;
+    transform:translate(-50%,-50%) scale(.96);
   }
 
-  20%{
+  8%{
     opacity:1;
-    transform:translate(-50%,-50%) scale(3);
+    transform:translate(-50%,-50%) scale(1);
+  }
+
+  55%{
+    opacity:1;
+    transform:translate(-50%,-50%) scale(1.03);
   }
 
   100%{
     opacity:0;
-    transform:translate(-50%,-50%) scale(7);
+    transform:translate(-50%,-50%) scale(1.08);
   }
 }
 
