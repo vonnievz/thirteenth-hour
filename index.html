@@ -2,10 +2,18 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>The Thirteenth Hour</title>
 
 <style>
+:root{
+  --ink:#302827;
+  --wine:#8b2030;
+  --cream:#fff9ef;
+  --mist:#e9efed;
+  --sage:#718877;
+}
+
 *{
   box-sizing:border-box;
   -webkit-tap-highlight-color:transparent;
@@ -14,347 +22,998 @@
 html,body{
   margin:0;
   min-height:100%;
-  font-family:Georgia, "Times New Roman", serif;
+  font-family:Georgia,"Times New Roman",serif;
 }
 
 body{
   min-height:100vh;
   overflow-x:hidden;
-  color:#f8f3e8;
+  color:#2f3b3b;
   background:
-    radial-gradient(circle at 50% 30%, #314a47 0%, #152927 35%, #081413 70%, #030807 100%);
+    radial-gradient(circle at 50% 15%,
+      #ffffff 0%,
+      #f5f7f4 28%,
+      #e4ece9 62%,
+      #bdcbc7 100%);
 }
 
-/* subtle stars */
-body:before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  opacity:.6;
-  background-image:
-    radial-gradient(circle at 15% 20%, white 0 1px, transparent 2px),
-    radial-gradient(circle at 82% 14%, white 0 1px, transparent 2px),
-    radial-gradient(circle at 73% 66%, white 0 1px, transparent 2px),
-    radial-gradient(circle at 24% 75%, white 0 1px, transparent 2px),
-    radial-gradient(circle at 90% 48%, white 0 1px, transparent 2px);
-}
-
-/* PASSWORD SCREEN */
-
-#gate{
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  padding:30px 22px;
-  text-align:center;
-  transition:1s;
-}
-
-.small{
-  letter-spacing:5px;
-  text-transform:uppercase;
-  font-size:11px;
-  opacity:.7;
-  margin-bottom:18px;
-}
-
-h1{
-  font-weight:normal;
-  font-size:clamp(35px,10vw,58px);
-  margin:0;
-  line-height:1;
-  text-shadow:0 0 22px rgba(255,255,255,.18);
-}
-
-.thirteen{
-  font-size:clamp(100px,32vw,180px);
-  line-height:.9;
-  margin:20px 0 12px;
-  font-style:italic;
-  color:#fff;
-  text-shadow:
-    0 0 10px #fff,
-    0 0 25px #b8e8e4,
-    0 0 60px #74aaa6;
-}
-
-.riddle{
-  font-style:italic;
-  opacity:.78;
-  max-width:310px;
-  line-height:1.6;
-  margin:15px auto 22px;
-}
-
-.code{
-  display:flex;
-  gap:8px;
-  width:min(300px,90vw);
-}
-
+button,
 input{
-  width:100%;
-  border:1px solid rgba(255,255,255,.35);
-  border-radius:30px;
-  padding:15px 20px;
-  background:rgba(255,255,255,.08);
-  color:white;
-  text-align:center;
-  font-size:18px;
-  outline:none;
+  font:inherit;
 }
 
-input::placeholder{
-  color:rgba(255,255,255,.45);
-}
-
-button{
-  border:1px solid rgba(255,255,255,.5);
-  background:rgba(255,255,255,.12);
-  color:white;
-  border-radius:50%;
-  width:52px;
-  height:52px;
-  font-size:20px;
-}
-
-#error{
-  height:25px;
-  margin-top:12px;
-  font-style:italic;
-  opacity:.7;
-}
-
-/* CRYSTAL SCREEN */
-
-#crystalScene{
-  display:none;
+.scene{
+  position:relative;
   min-height:100vh;
+  padding:28px 18px;
+  overflow:hidden;
+}
+
+/* ==================================================
+   SCENE 1 — FLOATING CRYSTALS
+================================================== */
+
+#opening{
+  display:flex;
   align-items:center;
   justify-content:center;
-  flex-direction:column;
   text-align:center;
-  padding:25px;
+}
+
+.mist{
+  position:absolute;
+  inset:-20%;
+  pointer-events:none;
+  filter:blur(24px);
+  background:
+    radial-gradient(circle at 30% 30%,rgba(255,255,255,.75),transparent 32%),
+    radial-gradient(circle at 75% 25%,rgba(255,255,255,.55),transparent 30%),
+    radial-gradient(circle at 50% 75%,rgba(255,255,255,.48),transparent 38%);
+}
+
+#crystalField{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  pointer-events:none;
 }
 
 .crystal{
-  position:relative;
-  width:min(70vw,300px);
-  aspect-ratio:1;
+  --size:70px;
+
+  position:absolute;
+  bottom:-150px;
+
+  width:var(--size);
+  height:var(--size);
+
   border-radius:50%;
-  cursor:pointer;
+  border:1px solid rgba(255,255,255,.9);
+
+  opacity:var(--opacity);
 
   background:
-    radial-gradient(circle at 34% 25%,
-      rgba(255,255,255,.95) 0%,
-      rgba(210,255,250,.40) 5%,
-      rgba(98,180,178,.18) 22%,
-      rgba(20,60,58,.28) 55%,
-      rgba(0,0,0,.4) 100%);
-
-  border:2px solid rgba(225,255,255,.65);
+    radial-gradient(circle at 29% 22%,
+      rgba(255,255,255,.98) 0 6%,
+      rgba(255,255,255,.62) 7%,
+      rgba(210,247,249,.35) 20%,
+      rgba(161,215,220,.18) 44%,
+      rgba(88,129,134,.15) 70%,
+      rgba(255,255,255,.11) 100%);
 
   box-shadow:
-    inset -25px -30px 50px rgba(0,0,0,.55),
-    inset 18px 15px 35px rgba(255,255,255,.22),
-    0 0 15px rgba(205,255,250,.8),
-    0 0 60px rgba(100,205,195,.45),
-    0 35px 70px rgba(0,0,0,.8);
+    inset -15px -18px 26px rgba(75,105,110,.14),
+    inset 10px 8px 23px rgba(255,255,255,.62),
+    0 0 16px rgba(255,255,255,.95),
+    0 0 42px rgba(163,232,237,.47);
 
-  animation:float 4s ease-in-out infinite;
+  filter:blur(var(--blur));
+
+  animation:
+    rise var(--duration) linear infinite,
+    drift var(--drift) ease-in-out infinite alternate;
+
+  animation-delay:var(--delay);
 }
 
 .crystal:before{
   content:"";
   position:absolute;
-  width:34%;
-  height:17%;
-  top:13%;
-  left:18%;
+  width:32%;
+  height:16%;
+  left:17%;
+  top:12%;
+
   border-radius:50%;
   transform:rotate(-35deg);
-  background:rgba(255,255,255,.38);
-  filter:blur(5px);
+
+  background:rgba(255,255,255,.72);
+  filter:blur(2px);
 }
 
-.crystal:after{
-  content:"13";
-  position:absolute;
-  inset:0;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-size:80px;
-  font-style:italic;
-  color:rgba(255,255,255,.14);
-  text-shadow:0 0 20px white;
+@keyframes rise{
+  from{
+    transform:translateY(0) scale(.88);
+  }
+  to{
+    transform:translateY(-125vh) scale(1.06);
+  }
 }
 
-@keyframes float{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-18px)}
+@keyframes drift{
+  from{margin-left:-20px;}
+  to{margin-left:20px;}
 }
 
-.touch{
-  margin-top:50px;
+.pop{
+  animation:pop .5s ease forwards !important;
+}
+
+@keyframes pop{
+  0%{
+    transform:scale(1);
+    opacity:1;
+  }
+
+  55%{
+    transform:scale(1.4);
+    opacity:.88;
+    filter:brightness(1.7);
+  }
+
+  100%{
+    transform:scale(0);
+    opacity:0;
+  }
+}
+
+.opening-copy{
+  position:relative;
+  z-index:5;
+  max-width:350px;
+}
+
+.kicker{
+  font-size:10px;
   letter-spacing:4px;
-  font-size:11px;
   text-transform:uppercase;
-  opacity:.7;
+  opacity:.65;
 }
 
-/* INVITATION */
+.opening-copy h1{
+  margin:15px 0 18px;
+
+  font-weight:normal;
+  font-size:clamp(46px,12vw,70px);
+  line-height:.92;
+
+  text-shadow:0 2px 20px rgba(255,255,255,.9);
+}
+
+.opening-copy p{
+  margin:0 0 30px;
+
+  font-size:17px;
+  font-style:italic;
+  line-height:1.6;
+  opacity:.72;
+}
+
+.glass-button{
+  border:1px solid rgba(61,79,80,.24);
+  border-radius:999px;
+
+  padding:14px 25px;
+
+  background:rgba(255,255,255,.65);
+  color:#324143;
+
+  letter-spacing:3px;
+  text-transform:uppercase;
+  font-size:10px;
+
+  box-shadow:
+    inset 0 1px 5px rgba(255,255,255,.8),
+    0 10px 28px rgba(75,95,94,.12);
+}
+
+/* ==================================================
+   SCENE 2 — TREE + BITTEN PEACH
+================================================== */
+
+#treeScene{
+  display:none;
+  opacity:0;
+
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+
+  text-align:center;
+
+  transition:900ms ease;
+}
+
+.tree-world{
+  position:relative;
+
+  width:min(92vw,410px);
+  height:455px;
+
+  margin-top:10px;
+}
+
+/* trunk */
+
+.trunk{
+  position:absolute;
+
+  left:50%;
+  bottom:0;
+
+  width:84px;
+  height:270px;
+
+  transform:translateX(-50%);
+
+  border-radius:
+    48% 52% 15% 18%
+    / 22% 24% 8% 8%;
+
+  background:
+    linear-gradient(
+      90deg,
+      #44362f 0%,
+      #7b6251 24%,
+      #9a7c64 46%,
+      #655144 68%,
+      #3d302b 100%
+    );
+
+  box-shadow:
+    inset 12px 0 18px rgba(255,255,255,.10),
+    inset -16px 0 22px rgba(0,0,0,.17);
+}
+
+/* branches */
+
+.branch{
+  position:absolute;
+
+  height:27px;
+
+  border-radius:999px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #7e6755,
+      #57463b
+    );
+
+  transform-origin:left center;
+}
+
+.branch1{
+  width:160px;
+  left:195px;
+  top:248px;
+  transform:rotate(-35deg);
+}
+
+.branch2{
+  width:155px;
+  left:203px;
+  top:302px;
+  transform:rotate(205deg);
+}
+
+.branch3{
+  width:135px;
+  left:201px;
+  top:201px;
+  transform:rotate(210deg);
+}
+
+/* foliage */
+
+.leaves{
+  position:absolute;
+
+  border-radius:50%;
+
+  background:
+    radial-gradient(
+      circle at 32% 27%,
+      #a2b5a0 0 18%,
+      #778e74 46%,
+      #526b53 100%
+    );
+
+  box-shadow:
+    inset 12px 9px 22px rgba(255,255,255,.12),
+    0 12px 28px rgba(74,90,73,.13);
+}
+
+.l1{
+  width:190px;
+  height:155px;
+  left:10px;
+  top:95px;
+}
+
+.l2{
+  width:215px;
+  height:170px;
+  right:0;
+  top:70px;
+}
+
+.l3{
+  width:180px;
+  height:145px;
+  left:115px;
+  top:15px;
+}
+
+.l4{
+  width:160px;
+  height:135px;
+  right:25px;
+  top:165px;
+}
+
+/* peach */
+
+.peach{
+  position:absolute;
+
+  right:71px;
+  top:180px;
+
+  width:88px;
+  height:88px;
+
+  border-radius:
+    47% 53% 46% 54%
+    / 54% 47% 53% 46%;
+
+  transform:rotate(-7deg);
+
+  background:
+    radial-gradient(
+      circle at 34% 27%,
+      rgba(255,255,255,.58) 0 8%,
+      transparent 9%
+    ),
+    radial-gradient(
+      circle at 56% 58%,
+      #f5c1ae 0 32%,
+      #df927f 65%,
+      #b86660 100%
+    );
+
+  box-shadow:
+    inset -10px -10px 20px rgba(118,59,56,.17),
+    0 7px 25px rgba(88,63,58,.15);
+
+  animation:peachGlow 3s ease-in-out infinite;
+}
+
+/* bites */
+
+.peach:before{
+  content:"";
+
+  position:absolute;
+
+  width:29px;
+  height:36px;
+
+  right:-5px;
+  top:5px;
+
+  border-radius:50%;
+
+  background:#eaf0ed;
+
+  box-shadow:
+    9px 10px 0 #eaf0ed,
+    3px 28px 0 #eaf0ed;
+}
+
+/* stem */
+
+.peach:after{
+  content:"";
+
+  position:absolute;
+
+  width:11px;
+  height:20px;
+
+  left:44px;
+  top:-12px;
+
+  border-radius:7px;
+
+  background:#7c6049;
+
+  transform:rotate(11deg);
+}
+
+@keyframes peachGlow{
+  0%,100%{
+    filter:drop-shadow(0 0 5px rgba(255,255,255,.25));
+  }
+
+  50%{
+    filter:drop-shadow(0 0 18px rgba(255,229,206,.92));
+  }
+}
+
+.tree-copy{
+  position:relative;
+  z-index:5;
+
+  margin-top:4px;
+}
+
+.tree-copy h2{
+  margin:10px 0 18px;
+
+  font-weight:normal;
+  font-size:36px;
+}
+
+/* ==================================================
+   SCENE 3 — THIRTEENTH HOUR UNLOCK
+================================================== */
+
+#gate{
+  display:none;
+  opacity:0;
+
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+
+  text-align:center;
+
+  transition:900ms ease;
+}
+
+#gate h2{
+  margin:8px 0 0;
+
+  font-size:43px;
+  font-weight:normal;
+}
+
+.hour-crystal{
+  width:195px;
+  height:195px;
+
+  margin:23px 0 20px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.9);
+
+  color:white;
+
+  font-size:92px;
+  font-style:italic;
+
+  background:
+    radial-gradient(
+      circle at 31% 22%,
+      rgba(255,255,255,.98) 0 5%,
+      rgba(255,255,255,.54) 8%,
+      rgba(209,246,248,.34) 22%,
+      rgba(138,193,198,.21) 50%,
+      rgba(74,107,111,.18) 100%
+    );
+
+  box-shadow:
+    inset -24px -28px 38px rgba(74,102,107,.18),
+    inset 14px 10px 30px rgba(255,255,255,.6),
+    0 0 23px rgba(255,255,255,.9),
+    0 0 64px rgba(174,235,239,.75);
+
+  animation:floatCrystal 4s ease-in-out infinite;
+}
+
+@keyframes floatCrystal{
+  0%,100%{
+    transform:translateY(0);
+  }
+
+  50%{
+    transform:translateY(-14px);
+  }
+}
+
+.riddle{
+  max-width:310px;
+
+  margin:0 0 23px;
+
+  font-style:italic;
+  font-size:16px;
+  line-height:1.65;
+
+  opacity:.72;
+}
+
+.code{
+  display:flex;
+
+  width:min(310px,90vw);
+
+  gap:9px;
+}
+
+.code input{
+  flex:1;
+
+  border:1px solid rgba(52,70,70,.24);
+  border-radius:999px;
+
+  padding:15px 18px;
+
+  background:rgba(255,255,255,.67);
+  color:#304041;
+
+  text-align:center;
+  font-size:19px;
+
+  outline:none;
+}
+
+.code button{
+  width:52px;
+  height:52px;
+
+  border:1px solid rgba(52,70,70,.24);
+  border-radius:50%;
+
+  background:rgba(255,255,255,.68);
+  color:#304041;
+
+  font-size:20px;
+}
+
+#error{
+  height:25px;
+
+  margin-top:12px;
+
+  color:#74343b;
+
+  font-style:italic;
+}
+
+/* ==================================================
+   INVITATION
+================================================== */
 
 #invitation{
   display:none;
-  min-height:100vh;
-  padding:35px 18px 60px;
-  animation:reveal 1.7s ease;
+  opacity:0;
+
+  padding:30px 16px 65px;
+
+  transition:1.2s ease;
 }
 
-@keyframes reveal{
-  from{
-    opacity:0;
-    filter:blur(18px);
-    transform:scale(.9);
-  }
-  to{
-    opacity:1;
-    filter:blur(0);
-    transform:scale(1);
-  }
-}
+.invite-shell{
+  width:min(460px,100%);
 
-.card{
-  width:min(430px,100%);
   margin:auto;
-  position:relative;
-  overflow:hidden;
-  color:#332a26;
+
+  padding:12px;
 
   background:
     repeating-linear-gradient(
-      90deg,
-      #f5eee1 0px,
-      #f5eee1 28px,
-      #9f2630 28px,
-      #9f2630 56px
+      135deg,
+      #f6f1e8 0 25px,
+      #f6f1e8 25px 32px,
+      var(--wine) 32px 55px
     );
 
-  padding:12px;
-  border-radius:4px;
-  box-shadow:0 25px 80px rgba(0,0,0,.7);
+  box-shadow:
+    0 25px 75px rgba(69,83,83,.30);
 }
 
-.paper{
-  background:rgba(250,246,237,.96);
-  min-height:650px;
-  padding:42px 24px;
+.invite-paper{
+  position:relative;
+
+  overflow:hidden;
+
+  min-height:700px;
+
+  padding:41px 25px 38px;
+
   text-align:center;
-  border:1px solid #c8bda9;
+
+  background:
+    linear-gradient(
+      rgba(255,250,241,.97),
+      rgba(255,250,241,.97)
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(71,58,53,.035) 0 1px,
+      transparent 1px 7px
+    );
+
+  border:1px solid rgba(93,75,69,.25);
 }
+
+/* maze texture */
+
+.invite-paper:before,
+.invite-paper:after{
+  content:"";
+
+  position:absolute;
+
+  width:185px;
+  height:185px;
+
+  border:2px solid #3a302e;
+
+  opacity:.055;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent 47%,
+      #3a302e 48% 52%,
+      transparent 53%
+    ),
+    linear-gradient(
+      transparent 47%,
+      #3a302e 48% 52%,
+      transparent 53%
+    );
+}
+
+.invite-paper:before{
+  top:190px;
+  left:-90px;
+
+  transform:rotate(45deg);
+}
+
+.invite-paper:after{
+  right:-90px;
+  bottom:100px;
+
+  transform:rotate(45deg);
+}
+
+/* clock */
 
 .clock{
-  width:105px;
-  height:105px;
-  margin:0 auto 22px;
-  border:3px solid #292525;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
   position:relative;
-  font-size:38px;
+
+  width:118px;
+  height:118px;
+
+  margin:0 auto 20px;
+
+  display:grid;
+  place-items:center;
+
+  border:2px solid var(--ink);
+  border-radius:50%;
+
+  font-size:42px;
   font-style:italic;
 }
 
-.clock:before{
+.clock:before,
+.clock:after{
   content:"";
+
   position:absolute;
+
+  left:50%;
+
   width:2px;
-  height:35px;
-  background:#292525;
-  top:15px;
-  transform-origin:bottom;
-  transform:rotate(25deg);
+
+  background:var(--ink);
+
+  transform-origin:bottom center;
+}
+
+.clock:before{
+  height:38px;
+  top:17px;
+
+  transform:
+    translateX(-50%)
+    rotate(25deg);
 }
 
 .clock:after{
-  content:"";
-  position:absolute;
-  width:2px;
-  height:27px;
-  background:#292525;
-  top:23px;
-  transform-origin:bottom;
-  transform:rotate(130deg);
+  height:29px;
+  top:26px;
+
+  transform:
+    translateX(-50%)
+    rotate(128deg);
 }
 
 .invited{
   text-transform:uppercase;
+
   letter-spacing:4px;
-  font-size:12px;
+
+  font-size:10px;
 }
 
 .name{
-  font-size:44px;
+  margin:14px 0 5px;
+
+  font-size:52px;
   font-weight:normal;
-  margin:12px 0 4px;
+  line-height:.95;
 }
 
 .age{
   font-size:21px;
   font-style:italic;
-  margin-bottom:30px;
+}
+
+.invitation-title{
+  margin:25px 0 5px;
+
+  color:var(--wine);
+
+  font-size:14px;
+
+  letter-spacing:3px;
+  text-transform:uppercase;
 }
 
 .divider{
-  width:60px;
-  border-top:1px solid #74675d;
-  margin:25px auto;
+  width:68px;
+
+  margin:23px auto;
+
+  border-top:1px solid rgba(69,54,49,.42);
 }
 
 .details{
   font-size:18px;
-  line-height:1.7;
+  line-height:1.65;
 }
 
 .details strong{
   display:block;
-  text-transform:uppercase;
-  font-size:11px;
+
+  margin-top:15px;
+
+  color:#725b55;
+
+  font-size:10px;
+
   letter-spacing:3px;
-  margin-top:18px;
+  text-transform:uppercase;
 }
 
 .movie{
-  margin-top:30px;
-  font-style:italic;
+  margin-top:20px;
+
   font-size:20px;
+  font-style:italic;
 }
 
 .chair{
-  margin-top:22px;
-  padding-top:20px;
-  border-top:1px solid #c9beb0;
-  font-size:14px;
-  letter-spacing:1px;
+  margin-top:20px;
+  padding-top:18px;
+
+  border-top:1px solid rgba(105,84,77,.28);
+
+  font-size:11px;
+
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+
+/* small peach on invitation */
+
+.mini-peach{
+  position:relative;
+
+  width:70px;
+  height:70px;
+
+  margin:27px auto 5px;
+
+  border-radius:
+    47% 53% 46% 54%
+    / 54% 47% 53% 46%;
+
+  transform:rotate(-7deg);
+
+  background:
+    radial-gradient(
+      circle at 34% 27%,
+      rgba(255,255,255,.55) 0 8%,
+      transparent 9%
+    ),
+    radial-gradient(
+      circle at 56% 58%,
+      #f4beab 0 32%,
+      #df927f 65%,
+      #b86660 100%
+    );
+}
+
+.mini-peach:before{
+  content:"";
+
+  position:absolute;
+
+  width:23px;
+  height:30px;
+
+  right:-4px;
+  top:4px;
+
+  border-radius:50%;
+
+  background:var(--cream);
+
+  box-shadow:
+    7px 9px 0 var(--cream),
+    2px 23px 0 var(--cream);
+}
+
+.mini-peach:after{
+  content:"";
+
+  position:absolute;
+
+  width:8px;
+  height:16px;
+
+  top:-9px;
+  left:35px;
+
+  border-radius:6px;
+
+  background:#80634d;
+}
+
+.footer{
+  margin-top:17px;
+
+  font-size:12px;
+  font-style:italic;
+
+  opacity:.63;
+}
+
+@media(max-width:390px){
+
+  .tree-world{
+    transform:scale(.90);
+    margin-top:-10px;
+    margin-bottom:-25px;
+  }
+
+  .name{
+    font-size:45px;
+  }
+
+  .invite-paper{
+    padding-left:22px;
+    padding-right:22px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<section id="gate">
+<!-- FLOATING CRYSTAL OPENING -->
 
-  <div class="small">You have been summoned</div>
+<section id="opening" class="scene">
 
-  <h1>The Thirteenth Hour</h1>
+  <div class="mist"></div>
 
-  <div class="thirteen">13</div>
+  <div id="crystalField"></div>
+
+  <div class="opening-copy">
+
+    <div class="kicker">
+      A curious invitation
+    </div>
+
+    <h1>
+      The Thirteenth Hour
+    </h1>
+
+    <p>
+      Some things are better discovered
+      than explained.
+    </p>
+
+    <button
+      class="glass-button"
+      onclick="beginJourney()">
+      Touch to Begin
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- TREE + BITTEN PEACH -->
+
+<section id="treeScene" class="scene">
+
+  <div class="tree-world">
+
+    <div class="branch branch1"></div>
+    <div class="branch branch2"></div>
+    <div class="branch branch3"></div>
+
+    <div class="trunk"></div>
+
+    <div class="leaves l1"></div>
+    <div class="leaves l2"></div>
+    <div class="leaves l3"></div>
+    <div class="leaves l4"></div>
+
+    <div class="peach"></div>
+
+  </div>
+
+  <div class="tree-copy">
+
+    <div class="kicker">
+      Something has already taken a bite
+    </div>
+
+    <h2>
+      Follow the hour.
+    </h2>
+
+    <button
+      class="glass-button"
+      onclick="showGate()">
+      Continue
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- 13 UNLOCK -->
+
+<section id="gate" class="scene">
+
+  <div class="kicker">
+    One hour remains
+  </div>
+
+  <h2>
+    The Thirteenth Hour
+  </h2>
+
+  <div class="hour-crystal">
+    13
+  </div>
 
   <div class="riddle">
     Beyond the ordinary hours,<br>
@@ -362,13 +1021,22 @@ button{
   </div>
 
   <div class="code">
+
     <input
       id="password"
       inputmode="numeric"
-      placeholder="Enter the hour"
+      pattern="[0-9]*"
       maxlength="2"
-    >
-    <button onclick="unlock()">→</button>
+      placeholder="Enter the hour"
+      aria-label="Enter the hour">
+
+    <button
+      type="button"
+      onclick="unlock()"
+      aria-label="Unlock">
+      →
+    </button>
+
   </div>
 
   <div id="error"></div>
@@ -376,37 +1044,40 @@ button{
 </section>
 
 
-<section id="crystalScene">
+<!-- INVITATION -->
 
-  <div class="small">The way is open</div>
+<section id="invitation" class="scene">
 
-  <div class="crystal" onclick="revealInvitation()"></div>
+  <div class="invite-shell">
 
-  <div class="touch">Touch the crystal</div>
+    <div class="invite-paper">
 
-</section>
+      <div class="clock">
+        13
+      </div>
 
+      <div class="invited">
+        You're invited to celebrate
+      </div>
 
-<section id="invitation">
+      <h2 class="name">
+        Vonnie
+      </h2>
 
-  <div class="card">
+      <div class="age">
+        turning 45
+      </div>
 
-    <div class="paper">
-
-      <div class="clock">13</div>
-
-      <div class="invited">You're invited</div>
-
-      <h2 class="name">Vonnie</h2>
-
-      <div class="age">is turning 45</div>
+      <div class="invitation-title">
+        The Thirteenth Hour
+      </div>
 
       <div class="divider"></div>
 
       <div class="details">
 
         <strong>Date</strong>
-        September 19, 2026
+        Saturday, September 19, 2026
 
         <strong>Time</strong>
         5:30 PM
@@ -420,11 +1091,17 @@ button{
       <div class="divider"></div>
 
       <div class="movie">
-        Eat &amp; watch a movie.
+        Eat • Watch <em>Labyrinth</em>
       </div>
 
       <div class="chair">
-        PLEASE BRING YOUR OWN CHAIR
+        Bring your own chair
+      </div>
+
+      <div class="mini-peach"></div>
+
+      <div class="footer">
+        The clock has struck thirteen.
       </div>
 
     </div>
@@ -436,65 +1113,454 @@ button{
 
 <script>
 
-const password = document.getElementById("password");
+/* ==================================================
+   CREATE FLOATING CRYSTALS
+================================================== */
 
-password.addEventListener("keydown", function(event){
-  if(event.key === "Enter"){
-    unlock();
+const crystalField =
+  document.getElementById("crystalField");
+
+for(let i = 0; i < 30; i++){
+
+  const crystal =
+    document.createElement("div");
+
+  crystal.className = "crystal";
+
+  const size =
+    28 + Math.random() * 110;
+
+  const duration =
+    11 + Math.random() * 15;
+
+  crystal.style.setProperty(
+    "--size",
+    size + "px"
+  );
+
+  crystal.style.setProperty(
+    "--duration",
+    duration + "s"
+  );
+
+  crystal.style.setProperty(
+    "--delay",
+    (-Math.random() * duration) + "s"
+  );
+
+  crystal.style.setProperty(
+    "--drift",
+    (3 + Math.random() * 5) + "s"
+  );
+
+  crystal.style.setProperty(
+    "--opacity",
+    0.25 + Math.random() * 0.50
+  );
+
+  crystal.style.setProperty(
+    "--blur",
+    (Math.random() * 1.8) + "px"
+  );
+
+  crystal.style.left =
+    Math.random() * 100 + "%";
+
+  crystalField.appendChild(crystal);
+}
+
+
+/* ==================================================
+   AUDIO
+================================================== */
+
+let audioContext = null;
+
+function startAudio(){
+
+  if(!audioContext){
+
+    audioContext =
+      new (
+        window.AudioContext ||
+        window.webkitAudioContext
+      )();
+
   }
-});
 
-function unlock(){
+  if(audioContext.state === "suspended"){
+    audioContext.resume();
+  }
 
-  const value = password.value.trim();
+}
 
-  if(value === "13"){
 
-    document.getElementById("error").innerText = "";
+function playTone(
+  frequency,
+  start,
+  duration,
+  volume
+){
 
-    const gate = document.getElementById("gate");
+  const oscillator =
+    audioContext.createOscillator();
 
-    gate.style.opacity = "0";
-    gate.style.transform = "scale(1.1)";
+  const gain =
+    audioContext.createGain();
 
-    setTimeout(function(){
+  oscillator.type = "sine";
 
-      gate.style.display = "none";
+  oscillator.frequency.setValueAtTime(
+    frequency,
+    start
+  );
 
-      document.getElementById("crystalScene").style.display = "flex";
+  gain.gain.setValueAtTime(
+    0.0001,
+    start
+  );
 
-    },900);
+  gain.gain.exponentialRampToValueAtTime(
+    volume,
+    start + .03
+  );
 
-  }else{
+  gain.gain.exponentialRampToValueAtTime(
+    0.0001,
+    start + duration
+  );
 
-    document.getElementById("error").innerText =
-      "That is not the hour.";
+  oscillator.connect(gain);
 
-    password.value = "";
+  gain.connect(
+    audioContext.destination
+  );
+
+  oscillator.start(start);
+
+  oscillator.stop(
+    start + duration + .1
+  );
+
+}
+
+
+/* little crystal pop sounds */
+
+function playCrystalPops(){
+
+  startAudio();
+
+  const now =
+    audioContext.currentTime;
+
+  for(let i = 0; i < 8; i++){
+
+    playTone(
+      650 + Math.random() * 450,
+      now + i * .055,
+      .13,
+      .025
+    );
 
   }
 
 }
 
 
-function revealInvitation(){
+/* grandfather-clock style chime */
 
-  const crystal =
-    document.getElementById("crystalScene");
+function playGrandfatherClock(){
 
-  crystal.style.transition = "1s";
-  crystal.style.opacity = "0";
-  crystal.style.transform = "scale(1.5)";
+  startAudio();
 
-  setTimeout(function(){
+  const now =
+    audioContext.currentTime + .05;
 
-    crystal.style.display = "none";
+  const bells = [
+    659.25,
+    523.25,
+    587.33,
+    392.00,
+    523.25,
+    587.33,
+    659.25,
+    523.25
+  ];
 
-    document.getElementById("invitation").style.display = "block";
+  bells.forEach(
+    (frequency,index) => {
 
-    window.scrollTo(0,0);
+      const time =
+        now + index * .37;
 
-  },900);
+      playTone(
+        frequency,
+        time,
+        1.15,
+        .075
+      );
+
+      playTone(
+        frequency / 2,
+        time,
+        1.3,
+        .025
+      );
+
+    }
+  );
+
+  const strike =
+    now + bells.length * .37 + .35;
+
+  for(let i = 0; i < 3; i++){
+
+    playTone(
+      130.81,
+      strike + i * .82,
+      1.5,
+      .095
+    );
+
+    playTone(
+      65.41,
+      strike + i * .82,
+      1.6,
+      .035
+    );
+
+  }
+
+}
+
+
+/* ==================================================
+   OPENING TRANSITION
+================================================== */
+
+function beginJourney(){
+
+  startAudio();
+
+  playCrystalPops();
+
+  const crystals =
+    document.querySelectorAll(
+      ".crystal"
+    );
+
+  crystals.forEach(
+    crystal => {
+
+      setTimeout(
+        () => {
+
+          crystal.classList.add(
+            "pop"
+          );
+
+        },
+        Math.random() * 650
+      );
+
+    }
+  );
+
+  const opening =
+    document.getElementById(
+      "opening"
+    );
+
+  setTimeout(
+    () => {
+
+      opening.style.transition =
+        "850ms ease";
+
+      opening.style.opacity =
+        "0";
+
+      opening.style.filter =
+        "blur(10px)";
+
+    },
+    450
+  );
+
+  setTimeout(
+    () => {
+
+      opening.style.display =
+        "none";
+
+      const tree =
+        document.getElementById(
+          "treeScene"
+        );
+
+      tree.style.display =
+        "flex";
+
+      requestAnimationFrame(
+        () => {
+
+          tree.style.opacity =
+            "1";
+
+        }
+      );
+
+    },
+    1250
+  );
+
+}
+
+
+/* ==================================================
+   TREE TO CODE SCREEN
+================================================== */
+
+function showGate(){
+
+  startAudio();
+
+  const tree =
+    document.getElementById(
+      "treeScene"
+    );
+
+  tree.style.opacity =
+    "0";
+
+  tree.style.filter =
+    "blur(8px)";
+
+  setTimeout(
+    () => {
+
+      tree.style.display =
+        "none";
+
+      const gate =
+        document.getElementById(
+          "gate"
+        );
+
+      gate.style.display =
+        "flex";
+
+      requestAnimationFrame(
+        () => {
+
+          gate.style.opacity =
+            "1";
+
+        }
+      );
+
+    },
+    800
+  );
+
+}
+
+
+/* ==================================================
+   PASSWORD
+================================================== */
+
+const password =
+  document.getElementById(
+    "password"
+  );
+
+password.addEventListener(
+  "keydown",
+  function(event){
+
+    if(event.key === "Enter"){
+      unlock();
+    }
+
+  }
+);
+
+
+function unlock(){
+
+  startAudio();
+
+  const value =
+    password.value.trim();
+
+  if(value === "13"){
+
+    document.getElementById(
+      "error"
+    ).textContent = "";
+
+    playGrandfatherClock();
+
+    const gate =
+      document.getElementById(
+        "gate"
+      );
+
+    gate.style.opacity =
+      "0";
+
+    gate.style.transform =
+      "scale(1.08)";
+
+    gate.style.filter =
+      "blur(10px)";
+
+    setTimeout(
+      () => {
+
+        gate.style.display =
+          "none";
+
+        const invitation =
+          document.getElementById(
+            "invitation"
+          );
+
+        invitation.style.display =
+          "block";
+
+        requestAnimationFrame(
+          () => {
+
+            invitation.style.opacity =
+              "1";
+
+          }
+        );
+
+        window.scrollTo(
+          0,
+          0
+        );
+
+      },
+      1000
+    );
+
+  }
+  else{
+
+    document.getElementById(
+      "error"
+    ).textContent =
+      "That is not the hour.";
+
+    password.value =
+      "";
+
+  }
 
 }
 
