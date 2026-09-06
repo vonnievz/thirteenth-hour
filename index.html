@@ -129,49 +129,49 @@ background-repeat: no-repeat;
 /* ORB COMES TOWARD THE GUEST */
 
 .opening-scene.play .opening-orb{
-  animation:orbApproach 4.6s cubic-bezier(.20,.55,.20,1) forwards;
+  animation:orbApproach 4.6s cubic-bezier(.25,.1,.25,1) forwards;
 }
 
 @keyframes orbApproach{
   0%{
     opacity:0;
-    transform:translate(-72%,-60%) scale(.38) rotate(-4deg);
+    transform:translate(-70%,-60%) scale(.42) rotate(-3deg);
     filter:blur(2px);
   }
 
-  18%{
+  20%{
     opacity:.45;
-    transform:translate(-64%,-66%) scale(.42) rotate(-2deg);
+    transform:translate(-64%,-57%) scale(.48) rotate(-2deg);
     filter:blur(1.5px);
   }
 
-  38%{
+  40%{
     opacity:.72;
-    transform:translate(-57%,-58%) scale(.52) rotate(1deg);
+    transform:translate(-58%,-54%) scale(.60) rotate(-1deg);
     filter:blur(1px);
   }
 
-  58%{
-    opacity:.92;
-    transform:translate(-62%,-51%) scale(.72) rotate(-1deg);
-    filter:blur(.4px);
+  60%{
+    opacity:.9;
+    transform:translate(-53%,-51%) scale(.82) rotate(0deg);
+    filter:blur(.5px);
   }
 
-  74%{
+  78%{
     opacity:1;
-    transform:translate(-53%,-55%) scale(1.05) rotate(1deg);
+    transform:translate(-49%,-48%) scale(1.25) rotate(.5deg);
     filter:blur(0);
   }
 
-  87%{
+  90%{
     opacity:1;
-    transform:translate(-47%,-48%) scale(1.75) rotate(-1deg);
+    transform:translate(-46%,-46%) scale(2.15) rotate(.25deg);
     filter:blur(0);
   }
 
   100%{
     opacity:1;
-    transform:translate(-44%,-46%) scale(4.8) rotate(0deg);
+    transform:translate(-44%,-45%) scale(4.8) rotate(0deg);
     filter:blur(.2px);
   }
 }
