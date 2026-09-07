@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#000000">
 <title>The Thirteenth Hour</title>
 
-<link rel="preload" as="image" href="jareth-clock-scene.jpg" fetchpriority="high">
+<link rel="preload" as="image" href="jareth_clock.jpg" fetchpriority="high">
 
 <style>
 *{
@@ -119,7 +119,7 @@ button{
   opacity:0;
   background:
     linear-gradient(to top,rgba(0,0,0,.92) 0%,rgba(0,0,0,.34) 30%,rgba(0,0,0,.08) 62%,rgba(0,0,0,.18) 100%),
-    url("jareth-clock-scene.jpg") center 34% / contain no-repeat,
+    url("jareth_clock.jpg") center 34% / contain no-repeat,
     #000;
 }
 #jarethWords{
@@ -269,6 +269,27 @@ button{
 #inviteImage.ready{
   animation:inviteReveal 1.25s cubic-bezier(.18,.68,.2,1) forwards;
 }
+.youtube-wrap{
+  width:min(100%,720px);
+  margin:18px auto 6px;
+}
+.youtube-frame{
+  position:relative;
+  width:100%;
+  padding-top:56.25%;
+  border-radius:12px;
+  overflow:hidden;
+  background:#000;
+}
+.youtube-frame iframe{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  border:0;
+  border-radius:12px;
+  display:block;
+}
 @keyframes inviteReveal{
   from{opacity:0;transform:scale(.975);filter:blur(6px) brightness(1.1)}
   to{opacity:1;transform:scale(1);filter:none}
@@ -337,7 +358,7 @@ button{
 
       <div class="gate-clock-wrap">
         <img
-          src="ornate-thirteen-clock.webp"
+          src="ornate_clock.webp"
           alt="Antique thirteen-hour clock"
           width="640"
           height="426"
@@ -365,15 +386,31 @@ button{
 </section>
 
 <section id="invitationScene" class="scene hidden">
-  <div class="invite-wrap">
+  <div class="invite-wrap" style="display:block;">
     <!-- No src at page load: the large invitation downloads only once the clock screen appears. -->
     <img
       id="inviteImage"
-      data-src="vonnie-final-invitation.webp"
+      data-src="final_invite.png"
       alt="Vonnie's 45th Birthday Celebration invitation"
       width="1024"
       height="1536"
       decoding="async">
+
+    <div class="youtube-wrap">
+      <div class="youtube-frame">
+        <iframe
+          width="560"
+          height="315"
+          src="https://www.youtube.com/embed/k8qs16mAU0s?si=5o6R_sjVWy6rOe5x&amp;start=34"
+          title="Within You - YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen
+          loading="lazy">
+        </iframe>
+      </div>
+    </div>
   </div>
 </section>
 
