@@ -1,12 +1,1711 @@
-THROUGH DANGERS UNTOLD… I wish the goblins would come
-and take you away… Right now.
-You have thirteen hours in which to solve the labyrinth, before your baby brother becomes one of us... forever.
-ENTER THE LABYRINTH
-THE CLOCK IS WAITING
-The Thirteenth Hour
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<title>The Thirteenth Hour</title>
 
-The way forward opens only at the hour that does not belong on an ordinary clock.
+<style>
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
 
-✦
+html,body{
+  margin:0;
+  width:100%;
+  height:100%;
+  background:#000;
+  font-family:Georgia,"Times New Roman",serif;
+}
+
+body{
+  overflow:hidden;
+  color:#ead7b0;
+  overscroll-behavior:none;
+}
+
+button,input{
+  font:inherit;
+}
+
+button{
+  touch-action:manipulation;
+}
+
+.scene{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100vh;
+  height:100svh;
+  overflow:hidden;
+  background:#000;
+  transition:opacity .85s ease,visibility .85s ease;
+}
+
+.hidden{
+  opacity:0!important;
+  visibility:hidden!important;
+  pointer-events:none!important;
+}
+
+.fade-in{
+  animation:fadeIn .75s ease forwards;
+}
+
+.fade-out{
+  animation:fadeOut .6s ease forwards;
+}
+
+@keyframes fadeIn{
+  from{opacity:0}
+  to{opacity:1}
+}
+
+@keyframes fadeOut{
+  from{opacity:1}
+  to{opacity:0}
+}
+
+/* ==============================
+   OPENING CINEMATIC
+   ============================== */
+
+#cinematic{
+  z-index:1000;
+  background:
+    radial-gradient(
+      circle at 50% 55%,
+      rgba(61,43,18,.18),
+      transparent 38%
+    ),
+    #000;
+}
+
+#loadingWords,
+#sarahWords,
+#rightNow{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+
+  padding:
+    max(28px,env(safe-area-inset-top))
+    28px
+    max(28px,env(safe-area-inset-bottom));
+
+  opacity:0;
+  pointer-events:none;
+
+  text-shadow:
+    0 0 18px rgba(208,170,105,.24);
+}
+
+#loadingWords{
+  font-size:clamp(17px,5vw,27px);
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+
+#sarahWords{
+  font-size:clamp(21px,6vw,30px);
+  line-height:1.58;
+  font-style:italic;
+}
+
+#rightNow{
+  font-size:clamp(34px,9vw,50px);
+  font-style:italic;
+}
+
+/* ENTER BUTTON */
+
+#soundPrompt{
+  position:absolute;
+  left:50%;
+
+  bottom:
+    max(
+      42px,
+      calc(env(safe-area-inset-bottom) + 20px)
+    );
+
+  transform:translateX(-50%);
+  z-index:20;
+
+  min-height:48px;
+
+  border:
+    1px solid rgba(234,215,176,.35);
+
+  border-radius:999px;
+
+  padding:14px 24px;
+
+  background:
+    rgba(255,255,255,.06);
+
+  color:#ead7b0;
+
+  font-size:13px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+
+  cursor:pointer;
+
+  opacity:0;
+
+  transition:
+    opacity .45s ease,
+    background .2s ease,
+    transform .2s ease;
+}
+
+#soundPrompt:active{
+  transform:
+    translateX(-50%)
+    scale(.98);
+}
+
+/* ==============================
+   JARETH AUDIO SECTION
+   NO JARETH IMAGE
+   ============================== */
+
+#jarethScene{
+  position:absolute;
+  inset:0;
+
+  opacity:0;
+
+  background:#000;
+}
+
+#jarethWords{
+  position:absolute;
+
+  left:0;
+  right:0;
+
+  bottom:
+    max(
+      30px,
+      calc(env(safe-area-inset-bottom) + 14px)
+    );
+
+  padding:18px 22px;
+
+  text-align:center;
+
+  font-size:
+    clamp(17px,4.8vw,26px);
+
+  line-height:1.5;
+
+  font-style:italic;
+
+  color:#ead7b0;
+
+  text-shadow:
+    0 2px 16px #000;
+
+  opacity:0;
+}
+
+/* ==============================
+   THE THIRTEENTH HOUR
+   ============================== */
+
+#gateScene{
+  z-index:900;
+
+  overflow-y:auto;
+
+  overscroll-behavior:contain;
+
+  -webkit-overflow-scrolling:touch;
+
+  color:#f8f0df;
+
+  background:
+
+    linear-gradient(
+      rgba(2,7,12,.10),
+      rgba(2,7,12,.20)
+    ),
+
+    url("/thirteenth-hour/C8A35709-F259-4D4C-816F-E5FF1F7C8AF7.png")
+    center center /
+    cover
+    no-repeat;
+}
+
+.gate-shell{
+  min-height:100%;
+
+  display:flex;
+
+  align-items:stretch;
+
+  justify-content:center;
+
+  padding:
+
+    max(
+      48px,
+      calc(env(safe-area-inset-top) + 18px)
+    )
+
+    20px
+
+    max(
+      30px,
+      calc(env(safe-area-inset-bottom) + 12px)
+    );
+}
+
+.gate-inner{
+  width:min(460px,100%);
+
+  min-height:100%;
+
+  display:flex;
+
+  flex-direction:column;
+
+  text-align:center;
+}
+
+/* CLOCK IS WAITING */
+
+.gate-kicker{
+  margin-top:8px;
+
+  font-size:11px;
+
+  letter-spacing:6px;
+
+  text-transform:uppercase;
+
+  color:#ead7b0;
+
+  text-shadow:
+    0 2px 10px rgba(0,0,0,.9);
+}
+
+/* THE THIRTEENTH HOUR */
+
+.gate-inner h1{
+  margin:13px 0 0;
+
+  font-size:
+    clamp(42px,10.8vw,68px);
+
+  line-height:1.02;
+
+  font-weight:normal;
+
+  color:#fff5e3;
+
+  text-shadow:
+    0 2px 14px rgba(0,0,0,.88);
+}
+
+/*
+Space intentionally left here
+so the clock artwork remains visible.
+*/
+
+.gate-spacer{
+  flex:1 1 auto;
+
+  min-height:43vh;
+}
+
+/* CLUE */
+
+.gate-inner p{
+  margin:
+    0 auto 20px;
+
+  max-width:355px;
+
+  font-size:
+    clamp(17px,4.4vw,21px);
+
+  line-height:1.5;
+
+  font-style:italic;
+
+  color:#f1dfbc;
+
+  text-shadow:
+    0 2px 12px rgba(0,0,0,.95);
+}
+
+/* ==============================
+   PASSWORD
+   ============================== */
+
+.code-row{
+  width:min(360px,100%);
+
+  margin:0 auto;
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:13px;
+
+  align-items:center;
+}
+
+#codeInput{
+  width:100%;
+
+  height:58px;
+
+  padding:13px 20px;
+
+  border-radius:999px;
+
+  border:
+    1.5px solid
+    rgba(229,188,110,.86);
+
+  background:
+    rgba(18,14,10,.68);
+
+  color:#fff5df;
+
+  text-align:center;
+
+  font-size:26px;
+
+  letter-spacing:9px;
+
+  outline:none;
+
+  box-shadow:
+
+    inset
+    0 0 18px
+    rgba(0,0,0,.55),
+
+    0 0 0 1px
+    rgba(255,225,164,.08);
+
+  backdrop-filter:blur(5px);
+
+  -webkit-backdrop-filter:
+    blur(5px);
+
+  transition:
+    box-shadow .25s ease,
+    border-color .25s ease,
+    text-shadow .25s ease;
+}
+
+#codeInput::placeholder{
+  color:
+    rgba(255,236,201,.62);
+}
+
+#codeInput:focus{
+  border-color:#f0c66f;
+
+  box-shadow:
+
+    inset
+    0 0 18px
+    rgba(0,0,0,.5),
+
+    0 0 18px
+    rgba(226,170,65,.28);
+}
+
+/* ==============================
+   GLOWING 13
+   ============================== */
+
+#codeInput.correct-code{
+  color:#fff4c8;
+
+  border-color:#ffd879;
+
+  text-shadow:
+
+    0 0 7px #ffd56a,
+
+    0 0 16px
+    rgba(255,188,54,.95),
+
+    0 0 30px
+    rgba(255,150,25,.7);
+
+  box-shadow:
+
+    inset
+    0 0 18px
+    rgba(70,36,0,.36),
+
+    0 0 13px
+    rgba(255,200,91,.75),
+
+    0 0 30px
+    rgba(255,153,29,.48);
+}
+
+/* STAR BUTTON */
+
+#unlockButton{
+  width:64px;
+
+  height:64px;
+
+  border-radius:50%;
+
+  border:
+    1.5px solid
+    rgba(238,196,111,.9);
+
+  background:
+    rgba(23,17,10,.72);
+
+  color:#fff4d6;
+
+  font-size:27px;
+
+  cursor:pointer;
+
+  box-shadow:
+    0 0 16px
+    rgba(231,172,62,.2);
+
+  transition:
+    transform .18s ease,
+    box-shadow .25s ease;
+}
+
+#unlockButton:active{
+  transform:scale(.96);
+}
+
+/* STAR GLOWS WHEN 13 IS ENTERED */
+
+#unlockButton.ready{
+  box-shadow:
+
+    0 0 14px
+    rgba(255,213,117,.8),
+
+    0 0 32px
+    rgba(255,160,34,.55);
+}
+
+#errorMessage{
+  min-height:27px;
+
+  margin-top:10px;
+
+  font-size:14px;
+
+  line-height:1.4;
+
+  font-style:italic;
+
+  color:#f3c9c1;
+
+  text-shadow:
+    0 1px 8px #000;
+}
+
+/* ==============================
+   FINAL INVITATION
+   ============================== */
+
+#invitationScene{
+  z-index:800;
+
+  overflow-y:auto;
+
+  -webkit-overflow-scrolling:touch;
+
+  overscroll-behavior:contain;
+
+  background:#090807;
+}
+
+.invite-wrap{
+  min-height:100%;
+
+  display:flex;
+
+  justify-content:center;
+
+  align-items:flex-start;
+
+  padding:
+
+    max(
+      12px,
+      env(safe-area-inset-top)
+    )
+
+    8px
+
+    max(
+      24px,
+      calc(env(safe-area-inset-bottom) + 10px)
+    );
+}
+
+#inviteImage{
+  display:block;
+
+  width:min(100%,720px);
+
+  height:auto;
+
+  border-radius:3px;
+
+  box-shadow:
+    0 20px 60px
+    rgba(0,0,0,.5);
+
+  opacity:0;
+}
+
+#inviteImage.ready{
+  animation:
+    inviteReveal
+    1.25s
+    cubic-bezier(.18,.68,.2,1)
+    forwards;
+}
+
+@keyframes inviteReveal{
+
+  from{
+    opacity:0;
+
+    transform:
+      scale(.975);
+
+    filter:
+      blur(6px)
+      brightness(1.1);
+  }
+
+  to{
+    opacity:1;
+
+    transform:
+      scale(1);
+
+    filter:none;
+  }
+}
+
+/* ==============================
+   SMALLER PHONE SCREENS
+   ============================== */
+
+@media (max-height:720px){
+
+  .gate-shell{
+    padding-top:
+      max(
+        28px,
+        env(safe-area-inset-top)
+      );
+  }
+
+  .gate-inner h1{
+    font-size:
+      clamp(36px,9vw,50px);
+  }
+
+  .gate-spacer{
+    min-height:36vh;
+  }
+
+  .gate-inner p{
+    font-size:16px;
+
+    margin-bottom:14px;
+  }
+}
+
+/* ==============================
+   REDUCED MOTION
+   ============================== */
+
+@media (prefers-reduced-motion:reduce){
+
+  *,
+  *::before,
+  *::after{
+
+    animation-duration:
+      .01ms!important;
+
+    animation-iteration-count:
+      1!important;
+
+    transition-duration:
+      .01ms!important;
+  }
+}
+
+</style>
+</head>
 
 
+<body>
+
+
+<!-- ============================
+     OPENING
+     ============================ -->
+
+<section
+  id="cinematic"
+  class="scene">
+
+  <div id="loadingWords">
+    Through dangers untold…
+  </div>
+
+  <div id="sarahWords">
+    I wish the goblins would come
+    <br>
+    and take you away…
+  </div>
+
+  <div id="rightNow">
+    Right now.
+  </div>
+
+
+  <!-- JARETH AUDIO PLAYS ON BLACK -->
+
+  <div id="jarethScene">
+
+    <div id="jarethWords">
+
+      You have thirteen hours in which
+      to solve the labyrinth, before your
+      baby brother becomes one of us...
+      forever.
+
+    </div>
+
+  </div>
+
+
+  <button
+    id="soundPrompt"
+    type="button">
+
+    Enter the Labyrinth
+
+  </button>
+
+</section>
+
+
+
+<!-- ============================
+     CLOCK / PASSWORD SCREEN
+     ============================ -->
+
+<section
+  id="gateScene"
+  class="scene hidden">
+
+  <div class="gate-shell">
+
+    <div class="gate-inner">
+
+
+      <div class="gate-kicker">
+
+        THE CLOCK IS WAITING
+
+      </div>
+
+
+      <h1>
+
+        The Thirteenth Hour
+
+      </h1>
+
+
+      <!--
+      This space allows the clock
+      in the background artwork
+      to remain unobstructed.
+      -->
+
+      <div
+        class="gate-spacer"
+        aria-hidden="true">
+      </div>
+
+
+      <p>
+
+        The way forward opens only at
+        the hour that does not belong
+        on an ordinary clock.
+
+      </p>
+
+
+      <div class="code-row">
+
+
+        <input
+
+          id="codeInput"
+
+          type="text"
+
+          inputmode="numeric"
+
+          enterkeyhint="done"
+
+          autocomplete="off"
+
+          maxlength="2"
+
+          placeholder="•••"
+
+          aria-label="Enter the code">
+
+
+        <button
+
+          id="unlockButton"
+
+          type="button"
+
+          aria-label="Unlock invitation">
+
+          ✦
+
+        </button>
+
+
+      </div>
+
+
+      <div
+        id="errorMessage"
+        aria-live="polite">
+      </div>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- ============================
+     FINAL INVITATION
+     ============================ -->
+
+<section
+  id="invitationScene"
+  class="scene hidden">
+
+  <div class="invite-wrap">
+
+
+    <img
+
+      id="inviteImage"
+
+      data-src="/thirteenth-hour/final_invite.png"
+
+      alt="Vonnie's 45th Birthday Celebration invitation"
+
+      width="1024"
+
+      height="1536"
+
+      decoding="async">
+
+
+  </div>
+
+</section>
+
+
+
+<!-- ============================
+     AUDIO
+     ============================ -->
+
+
+<!-- SARAH -->
+
+<audio
+
+  id="sarahAudio"
+
+  preload="auto"
+
+  playsinline
+
+  src="/thirteenth-hour/Sarah-right-now.m4a">
+
+</audio>
+
+
+<!-- JARETH'S SPOKEN LINE -->
+
+<audio
+
+  id="jarethAudio"
+
+  preload="auto"
+
+  playsinline
+
+  src="/thirteenth-hour/Jareth - 13hrs .m4a">
+
+</audio>
+
+
+<!--
+WITHIN YOU
+Plays when 13 is entered
+and the star is tapped.
+-->
+
+<audio
+
+  id="withinAudio"
+
+  preload="none"
+
+  playsinline
+
+  src="/thirteenth-hour/Within You.m4a">
+
+</audio>
+
+
+
+<script>
+
+/* ==============================
+   ELEMENTS
+   ============================== */
+
+const $ =
+  id =>
+    document.getElementById(id);
+
+
+const cinematic =
+  $("cinematic");
+
+const loadingWords =
+  $("loadingWords");
+
+const soundPrompt =
+  $("soundPrompt");
+
+const sarahWords =
+  $("sarahWords");
+
+const rightNow =
+  $("rightNow");
+
+const jarethScene =
+  $("jarethScene");
+
+const jarethWords =
+  $("jarethWords");
+
+const gateScene =
+  $("gateScene");
+
+const invitationScene =
+  $("invitationScene");
+
+const inviteImage =
+  $("inviteImage");
+
+const codeInput =
+  $("codeInput");
+
+const unlockButton =
+  $("unlockButton");
+
+const errorMessage =
+  $("errorMessage");
+
+
+const sarahAudio =
+  $("sarahAudio");
+
+const jarethAudio =
+  $("jarethAudio");
+
+const withinAudio =
+  $("withinAudio");
+
+
+let started = false;
+
+let invitationLoadStarted =
+  false;
+
+
+
+/* ==============================
+   HELPERS
+   ============================== */
+
+const wait =
+  ms =>
+    new Promise(
+      resolve =>
+        setTimeout(resolve,ms)
+    );
+
+
+function show(el){
+
+  el.classList.remove(
+    "fade-out"
+  );
+
+  el.classList.add(
+    "fade-in"
+  );
+}
+
+
+function hide(el){
+
+  el.classList.remove(
+    "fade-in"
+  );
+
+  el.classList.add(
+    "fade-out"
+  );
+}
+
+
+
+/* ==============================
+   AUDIO RESET / VOLUME
+   ============================== */
+
+function resetAudio(){
+
+  [
+    sarahAudio,
+    jarethAudio,
+    withinAudio
+  ]
+
+  .forEach(audio => {
+
+    try{
+
+      audio.pause();
+
+      audio.currentTime = 0;
+
+    }
+
+    catch(e){}
+
+  });
+
+
+  /*
+  Relative audio mix.
+  */
+
+  sarahAudio.volume =
+    1.0;
+
+  jarethAudio.volume =
+    0.72;
+
+  withinAudio.volume =
+    0.78;
+}
+
+
+
+/* ==============================
+   WAIT FOR AUDIO TO FINISH
+   ============================== */
+
+async function waitForEnded(
+  audio,
+  fallbackMs
+){
+
+  return new Promise(
+    resolve => {
+
+      let finished =
+        false;
+
+
+      const done = () => {
+
+        if(finished)
+          return;
+
+
+        finished =
+          true;
+
+
+        audio.removeEventListener(
+          "ended",
+          done
+        );
+
+
+        resolve();
+      };
+
+
+      if(audio.ended){
+
+        done();
+
+        return;
+      }
+
+
+      audio.addEventListener(
+
+        "ended",
+
+        done,
+
+        {once:true}
+
+      );
+
+
+      /*
+      Safety fallback for Safari.
+      */
+
+      setTimeout(
+        () => {
+
+          if(!finished){
+
+            try{
+
+              audio.pause();
+
+              audio.currentTime =
+                0;
+
+            }
+
+            catch(e){}
+
+
+            done();
+          }
+
+        },
+
+        fallbackMs
+      );
+
+    }
+  );
+}
+
+
+
+/* ==============================
+   PRELOAD FINAL INVITATION
+   ============================== */
+
+function beginInvitationPreload(){
+
+  if(invitationLoadStarted)
+    return;
+
+
+  invitationLoadStarted =
+    true;
+
+
+  inviteImage.src =
+    inviteImage.dataset.src;
+}
+
+
+
+/* ==============================
+   BEGIN THE LABYRINTH
+   ============================== */
+
+async function beginExperience(){
+
+  if(started)
+    return;
+
+
+  started =
+    true;
+
+
+  soundPrompt.disabled =
+    true;
+
+
+  soundPrompt.style.opacity =
+    0;
+
+
+  resetAudio();
+
+
+  /*
+  Prepare the later audio
+  after the user has tapped.
+  */
+
+  try{
+
+    jarethAudio.load();
+
+    withinAudio.load();
+
+  }
+
+  catch(e){}
+
+
+  await wait(250);
+
+
+
+  /* SARAH STARTS */
+
+  try{
+
+    sarahAudio.currentTime =
+      0;
+
+
+    await sarahAudio.play();
+
+  }
+
+  catch(e){
+
+    started =
+      false;
+
+
+    soundPrompt.disabled =
+      false;
+
+
+    soundPrompt.textContent =
+      "Tap again for sound";
+
+
+    soundPrompt.style.opacity =
+      1;
+
+
+    return;
+  }
+
+
+
+  show(sarahWords);
+
+
+
+  await wait(4700);
+
+
+  hide(sarahWords);
+
+
+
+  await wait(600);
+
+
+  show(rightNow);
+
+
+
+  await wait(1050);
+
+
+  hide(rightNow);
+
+
+
+  /*
+  Wait for Sarah's actual
+  audio ending.
+  */
+
+  await waitForEnded(
+    sarahAudio,
+    11000
+  );
+
+
+
+  await wait(500);
+
+
+
+  /* ============================
+     JARETH
+     ============================ */
+
+  show(jarethScene);
+
+
+  await wait(220);
+
+
+  show(jarethWords);
+
+
+
+  try{
+
+    jarethAudio.currentTime =
+      0;
+
+
+    await jarethAudio.play();
+
+  }
+
+  catch(e){}
+
+
+
+  await waitForEnded(
+    jarethAudio,
+    15000
+  );
+
+
+
+  hide(jarethWords);
+
+
+  hide(jarethScene);
+
+
+
+  await wait(600);
+
+
+
+  /* ============================
+     CLOCK SCREEN
+     ============================ */
+
+  cinematic.classList.add(
+    "hidden"
+  );
+
+
+  gateScene.classList.remove(
+    "hidden"
+  );
+
+
+  show(gateScene);
+
+
+
+  /*
+  Start downloading the
+  invitation in the background.
+  */
+
+  beginInvitationPreload();
+
+
+  /*
+  NO CLOCK CHIME.
+
+  The clock screen is
+  intentionally silent.
+  */
+
+
+  /*
+  DO NOT autofocus the code field.
+
+  This prevents the iPhone
+  keyboard from covering the clock.
+  */
+
+}
+
+
+
+/* ==============================
+   UNLOCK INVITATION
+   ============================== */
+
+async function unlockInvitation(){
+
+
+  if(
+    codeInput.value.trim()
+    !==
+    "13"
+  ){
+
+    errorMessage.textContent =
+      "The clock has not reached its thirteenth hour.";
+
+
+    codeInput.value =
+      "";
+
+
+    codeInput.classList.remove(
+      "correct-code"
+    );
+
+
+    unlockButton.classList.remove(
+      "ready"
+    );
+
+
+    return;
+  }
+
+
+
+  errorMessage.textContent =
+    "The Labyrinth is opening…";
+
+
+  beginInvitationPreload();
+
+
+
+  /*
+  The ✦ tap is a fresh
+  user interaction.
+
+  That gives iPhone Safari
+  the best chance of allowing
+  Within You to begin.
+  */
+
+  try{
+
+    withinAudio.currentTime =
+      0;
+
+
+    await withinAudio.play();
+
+  }
+
+  catch(e){
+
+    /*
+    Invitation still opens
+    if Safari refuses audio.
+    */
+
+  }
+
+
+
+  const reveal = () => {
+
+
+    errorMessage.textContent =
+      "";
+
+
+    gateScene.classList.add(
+      "hidden"
+    );
+
+
+    invitationScene.classList.remove(
+      "hidden"
+    );
+
+
+    inviteImage.classList.add(
+      "ready"
+    );
+
+  };
+
+
+
+  /*
+  If invitation already loaded,
+  reveal immediately.
+  */
+
+  if(
+    inviteImage.complete
+    &&
+    inviteImage.naturalWidth
+  ){
+
+    reveal();
+
+    return;
+  }
+
+
+
+  /*
+  Otherwise wait until
+  the invitation finishes loading.
+  */
+
+  inviteImage.addEventListener(
+
+    "load",
+
+    reveal,
+
+    {once:true}
+
+  );
+
+
+
+  inviteImage.addEventListener(
+
+    "error",
+
+    () => {
+
+      errorMessage.textContent =
+        "The invitation image could not load. Please refresh and try again.";
+
+    },
+
+    {once:true}
+
+  );
+
+}
+
+
+
+/* ==============================
+   BUTTON EVENTS
+   ============================== */
+
+soundPrompt.addEventListener(
+
+  "click",
+
+  beginExperience
+
+);
+
+
+unlockButton.addEventListener(
+
+  "click",
+
+  unlockInvitation
+
+);
+
+
+
+/* ==============================
+   KEYBOARD ENTER
+   ============================== */
+
+codeInput.addEventListener(
+
+  "keydown",
+
+  event => {
+
+    if(
+      event.key
+      ===
+      "Enter"
+    ){
+
+      event.preventDefault();
+
+      unlockInvitation();
+
+    }
+
+  }
+
+);
+
+
+
+/* ==============================
+   GLOW THE NUMBER 13
+   ============================== */
+
+codeInput.addEventListener(
+
+  "input",
+
+  function(){
+
+
+    /*
+    Numbers only.
+    */
+
+    this.value =
+      this.value.replace(
+        /[^0-9]/g,
+        ""
+      );
+
+
+
+    const isThirteen =
+      this.value
+      ===
+      "13";
+
+
+
+    /*
+    Glow the 13.
+    */
+
+    this.classList.toggle(
+
+      "correct-code",
+
+      isThirteen
+
+    );
+
+
+
+    /*
+    Glow the star too.
+    */
+
+    unlockButton.classList.toggle(
+
+      "ready",
+
+      isThirteen
+
+    );
+
+
+
+    if(
+      errorMessage.textContent
+      &&
+      this.value
+    ){
+
+      errorMessage.textContent =
+        "";
+
+    }
+
+  }
+
+);
+
+
+
+/* ==============================
+   INITIAL PAGE LOAD
+   ============================== */
+
+window.addEventListener(
+
+  "load",
+
+  async() => {
+
+
+    resetAudio();
+
+
+
+    show(
+      loadingWords
+    );
+
+
+
+    await wait(
+      1500
+    );
+
+
+
+    hide(
+      loadingWords
+    );
+
+
+
+    await wait(
+      550
+    );
+
+
+
+    soundPrompt.style.opacity =
+      1;
+
+  }
+
+);
+
+</script>
+
+
+</body>
+</html>
