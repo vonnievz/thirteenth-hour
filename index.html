@@ -38,10 +38,6 @@ body{overflow:hidden}
 #sarahWords,#rightNow,#jarethWords{font-style:italic}
 #sarahWords{font-size:clamp(21px,6vw,30px);line-height:1.55}
 #rightNow{font-size:clamp(32px,9vw,48px)}
-#goblins{
-  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;
-  opacity:0;transform:scale(1.04);filter:brightness(.78) contrast(1.08)
-}
 #cinemaClock{
   position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
   opacity:0;background:radial-gradient(circle at 50% 45%,#29231a 0,#11100e 42%,#000 76%)
@@ -58,11 +54,9 @@ body{overflow:hidden}
   font-size:clamp(17px,4.8vw,25px);line-height:1.5;background:linear-gradient(transparent 55%,rgba(0,0,0,.76))
 }
 .fadeIn{animation:fadeIn .8s ease forwards}.fadeOut{animation:fadeOut .7s ease forwards}
-.goblinPlay{animation:goblinHit 1.65s ease forwards}
 .clockPlay{animation:fadeIn 1.2s ease forwards}
 @keyframes fadeIn{to{opacity:1}}
 @keyframes fadeOut{from{opacity:1}to{opacity:0}}
-@keyframes goblinHit{0%{opacity:0;transform:scale(1.08)}10%{opacity:1}78%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(.995)}}
 
 /* FOREST */
 #forestScene{z-index:20;background:#020506;color:#fff}
@@ -84,8 +78,18 @@ body{overflow:hidden}
 #gateScene{z-index:30;display:flex;align-items:center;justify-content:center;text-align:center;padding:35px 22px;color:#f8f5ed;background:radial-gradient(circle at 50% 35%,#20313b 0,#111c22 30%,#070d10 62%,#020405 100%)}
 .gate-inner{width:min(390px,100%)}.gate-kicker{font-size:10px;letter-spacing:5px;text-transform:uppercase;opacity:.66}
 .gate-inner h2{margin:12px 0 3px;font-size:42px;font-weight:normal}.gate-inner p{margin:10px auto 20px;max-width:310px;line-height:1.6;font-size:16px;font-style:italic;opacity:.75}
-.hour-crystal{width:200px;height:200px;margin:27px auto 25px;display:flex;align-items:center;justify-content:center;border-radius:50%;border:1px solid rgba(255,255,255,.72);font-size:91px;font-style:italic;color:rgba(255,255,255,.93);background:radial-gradient(circle at 30% 22%,rgba(255,255,255,.98) 0 4%,rgba(255,255,255,.45) 7%,rgba(164,220,234,.22) 27%,rgba(91,143,162,.15) 52%,rgba(24,53,66,.19));box-shadow:inset 15px 13px 30px rgba(255,255,255,.32),inset -27px -29px 42px rgba(15,39,51,.3),0 0 70px rgba(104,181,211,.2);animation:orbFloat 4s ease-in-out infinite}
-@keyframes orbFloat{50%{transform:translateY(-15px)}}
+.grandfather-visual{width:min(180px,48vw);height:270px;margin:24px auto 25px;position:relative;filter:drop-shadow(0 12px 22px rgba(0,0,0,.55));animation:clockFloat 4s ease-in-out infinite}
+.grandfather-top{position:absolute;left:20%;top:0;width:60%;height:104px;border:2px solid rgba(218,198,155,.62);border-radius:46% 46% 12px 12px;background:linear-gradient(90deg,#17100b,#4a3420 48%,#1b120c);box-shadow:inset 0 0 20px #000,0 0 24px rgba(218,198,155,.12)}
+.grandfather-face{position:absolute;left:50%;top:17px;transform:translateX(-50%);width:72px;height:72px;border-radius:50%;border:4px solid #a78954;background:radial-gradient(circle,#e8d7ae 0,#b99b63 67%,#4b3821 70%);box-shadow:inset 0 0 8px rgba(0,0,0,.7)}
+.grandfather-face::before,.grandfather-face::after{content:"";position:absolute;left:50%;top:50%;transform-origin:0 50%;height:2px;background:#241a10;border-radius:2px}
+.grandfather-face::before{width:24px;transform:rotate(-90deg)}
+.grandfather-face::after{width:20px;transform:rotate(0deg)}
+.grandfather-body{position:absolute;left:29%;top:94px;width:42%;height:174px;border:2px solid rgba(218,198,155,.45);border-radius:4px 4px 12px 12px;background:linear-gradient(90deg,#130d09,#3b291a 48%,#140e09);box-shadow:inset 0 0 18px #000}
+.grandfather-window{position:absolute;left:20%;right:20%;top:24px;bottom:20px;border:1px solid rgba(218,198,155,.3);background:linear-gradient(rgba(10,10,9,.72),rgba(25,20,15,.72));overflow:hidden}
+.pendulum-line{position:absolute;left:50%;top:12px;width:2px;height:78px;background:#9e8150;transform-origin:top;animation:pendulum 2s ease-in-out infinite alternate}
+.pendulum-bob{position:absolute;left:50%;bottom:-18px;transform:translateX(-50%);width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#d6bd82,#8a6b36 68%,#443019);box-shadow:0 0 10px rgba(218,198,155,.15)}
+@keyframes clockFloat{50%{transform:translateY(-8px)}}
+@keyframes pendulum{from{transform:rotate(-8deg)}to{transform:rotate(8deg)}}}
 .code-row{width:min(300px,90vw);margin:auto;display:flex;gap:9px}
 #codeInput{flex:1;min-width:0;padding:15px 20px;border-radius:999px;border:1px solid rgba(255,255,255,.26);background:rgba(255,255,255,.09);color:#fff;text-align:center;font-size:21px;letter-spacing:7px;outline:none}
 #unlockButton{width:55px;height:55px;border-radius:50%;border:1px solid rgba(255,255,255,.26);background:rgba(255,255,255,.11);color:#fff;font-size:22px;cursor:pointer}
@@ -105,7 +109,6 @@ body{overflow:hidden}
   <div id="loadingWords">Through dangers untold…</div>
   <div id="sarahWords">I wish the goblins would come<br>and take you away…</div>
   <div id="rightNow">Right now.</div>
-  <img id="goblins" src="IMG_0019.jpeg" alt="">
   <div id="cinemaClock"><div class="clock-face">13</div></div>
   <div id="jarethWords">You have thirteen hours in which to solve the labyrinth, before your baby brother becomes one of us… forever.</div>
   <button id="soundPrompt" type="button">Enter the Labyrinth</button>
@@ -122,7 +125,10 @@ body{overflow:hidden}
   <div class="gate-inner">
     <div class="gate-kicker">The clock is waiting</div>
     <h2>The Thirteenth Hour</h2>
-    <div class="hour-crystal">13</div>
+    <div class="grandfather-visual" aria-hidden="true">
+      <div class="grandfather-top"><div class="grandfather-face"></div></div>
+      <div class="grandfather-body"><div class="grandfather-window"><div class="pendulum-line"><div class="pendulum-bob"></div></div></div></div>
+    </div>
     <p>The way forward opens only at the hour that does not belong on an ordinary clock.</p>
     <div class="code-row">
       <input id="codeInput" type="text" inputmode="numeric" autocomplete="off" maxlength="2" placeholder="••" aria-label="Enter the code">
@@ -134,7 +140,7 @@ body{overflow:hidden}
 
 <section id="invitationScene" class="scene hidden">
   <div class="invite-wrap">
-    <img class="invite-image" src="A52C21A8-4C9A-4CB4-81DC-D667B175E158.png" alt="Vonnie's 45th Birthday Celebration invitation">
+    <img class="invite-image" src="vonnie-final-invitation.png" alt="Vonnie's 45th Birthday Celebration invitation">
   </div>
 </section>
 
@@ -145,13 +151,17 @@ body{overflow:hidden}
 <script>
 const $=id=>document.getElementById(id);
 const cinematic=$("cinematic"),loading=$("loadingWords"),
-sarahWords=$("sarahWords"),rightNow=$("rightNow"),goblins=$("goblins"),cinemaClock=$("cinemaClock"),
+sarahWords=$("sarahWords"),rightNow=$("rightNow"),cinemaClock=$("cinemaClock"),
 jarethWords=$("jarethWords"),soundPrompt=$("soundPrompt"),sarahAudio=$("sarahAudio"),jarethAudio=$("jarethAudio"),
 forestScene=$("forestScene"),gateScene=$("gateScene"),invitationScene=$("invitationScene"),
 peachButton=$("peachButton"),codeInput=$("codeInput"),unlockButton=$("unlockButton"),
 errorMessage=$("errorMessage"),grandfatherClock=$("grandfatherClock"),crystalField=$("crystalField");
 
 let started=false;
+// Relative mix tuned from iPhone + Android testing.
+sarahAudio.volume=1.0;
+jarethAudio.volume=0.72;
+grandfatherClock.volume=0.27;
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 const show=(el)=>{el.classList.remove("fadeOut");el.classList.add("fadeIn")};
 const hide=(el)=>{el.classList.remove("fadeIn");el.classList.add("fadeOut")};
@@ -184,8 +194,6 @@ async function beginExperience(){
   show(rightNow);
   await wait(1050);
   hide(rightNow);
-
-  goblins.classList.add("goblinPlay");
 
   // IMPORTANT: do not start Jareth until Sarah has ACTUALLY finished.
   // Safari sometimes reports audio duration late, so we wait for the real "ended" event.
@@ -296,6 +304,8 @@ peachButton.addEventListener("click",()=>{
 });
 
 function unlockInvitation(){
+  cinemaClock.classList.add("hidden");
+  try{grandfatherClock.pause();grandfatherClock.currentTime=0;}catch(e){}
   if(codeInput.value.trim()!=="13"){
     errorMessage.textContent="The clock has not reached its thirteenth hour.";
     codeInput.value="";return;
