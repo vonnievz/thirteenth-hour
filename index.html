@@ -3,1534 +3,264 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-
 <title>The Thirteenth Hour</title>
-
 <style>
-*{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;width:100%;min-height:100%;background:#000;font-family:Georgia,"Times New Roman",serif}
+body{overflow:hidden}
+.scene{position:fixed;inset:0;width:100%;height:100dvh;overflow:hidden;transition:opacity 1.15s ease,visibility 1.15s ease}
+.hidden{opacity:0!important;visibility:hidden!important;pointer-events:none!important}
+
+/* CINEMATIC */
+#cinematic{z-index:10000;background:#000;color:#ead7b0}
+#loadingWords,#soundPrompt,#sarahWords,#rightNow,#jarethWords{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;
+  padding:30px;opacity:0;pointer-events:none;text-shadow:0 0 18px rgba(208,170,105,.28)
 }
-
-html,body{
-  margin:0;
-  width:100%;
-  min-height:100%;
-  background:#05090b;
-  font-family:Georgia,"Times New Roman",serif;
+#loadingWords{font-size:clamp(18px,5vw,28px);letter-spacing:.18em;text-transform:uppercase}
+#soundPrompt{
+  align-items:flex-end;padding-bottom:max(34px,env(safe-area-inset-bottom));
+  font-size:13px;letter-spacing:.12em;text-transform:uppercase;pointer-events:auto;cursor:pointer
 }
-
-body{
-  overflow-x:hidden;
+#openingOrb{
+  position:absolute;left:50%;top:50%;width:90px;height:90px;border-radius:50%;
+  background:url("glass-orb.png") center/contain no-repeat;
+  opacity:0;transform:translate(-115%,-78%) scale(.9);will-change:transform,opacity
 }
-
-  /* ==============================
-   ACT I: CINEMATIC OPENING
-============================== */
-
-.opening-scene{
-  position:fixed;
-  inset:0;
-  width:100%;
-  height:100dvh;
-  background:#000;
-  overflow:hidden;
-  z-index:9999;
-  opacity:1;
-  visibility:visible;
+#openingBurst{
+  position:absolute;left:50%;top:50%;width:100vw;height:100dvh;
+  background:url("glass-pop.png") center/cover no-repeat;
+  transform:translate(-50%,-50%) scale(.96);opacity:0;pointer-events:none
 }
-
-.opening-orb{
-  position:absolute;
-  left:50%;
-  top:50%;
-  width:90px;
-  height:90px;
-  border-radius:50%;
-
-  transform:
-    translate(-50%,-50%)
-    scale(.08);
-
-  opacity:0;
-
-  background-image: url("glass-orb.png");
-background-size: contain;
-background-position: center;
-background-repeat: no-repeat;
-
-  border:none;
-
-  
-
-  will-change:transform,opacity;
+#sarahWords,#rightNow,#jarethWords{font-style:italic}
+#sarahWords{font-size:clamp(21px,6vw,30px);line-height:1.55}
+#rightNow{font-size:clamp(32px,9vw,48px)}
+#goblins{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;
+  opacity:0;transform:scale(1.04);filter:brightness(.78) contrast(1.08)
 }
-
-
-
-
-.opening-burst{
-  position:absolute;
-  left:50%;
-  top:50%;
-  width:100vw;
-  height:100dvh;
-
-  background-image:url("glass-pop.png");
-  background-size:cover;
-  background-position:center;
-  background-repeat:no-repeat;
-
-  transform:translate(-50%,-50%) scale(0);
-  opacity:0;
-  pointer-events:none;
+#cinemaClock{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  opacity:0;background:radial-gradient(circle at 50% 45%,#29231a 0,#11100e 42%,#000 76%)
 }
-
-.opening-quote{
-  position:absolute;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:30px;
-  color:#ead7b0;
-  pointer-events:none;
-}
-
-.quote-first,
-.quote-now{
-  position:absolute;
-  width:min(84vw,380px);
-  opacity:0;
-
-  font-family:Georgia,"Times New Roman",serif;
-  font-style:italic;
-
-  text-shadow:
-    0 0 10px rgba(208,170,105,.2);
-
-  will-change:opacity,transform;
-}
-
-.quote-first{
-  font-size:clamp(21px,6vw,29px);
-  line-height:1.55;
-  transform:translateY(8px);
-}
-
-.quote-now{
-  font-size:clamp(27px,8vw,38px);
-  letter-spacing:.02em;
-  transform:translateY(8px);
-}
-
-
-/* ORB COMES TOWARD THE GUEST */
-
-.opening-scene.play .opening-orb{
-  animation:orbApproach 4.6s cubic-bezier(.22,.61,.36,1) forwards;
-}
-
-@keyframes orbApproach{
-  0%{
-    opacity:0;
-    transform:translate(-115%,-78%) scale(.9) rotate(-6deg);
-    filter:blur(3px);
-  }
-
-  18%{
-    opacity:.35;
-    transform:translate(-95%,-70%) scale(.92) rotate(-4deg);
-    filter:blur(2.4px);
-  }
-
-  36%{
-    opacity:.65;
-    transform:translate(-78%,-61%) scale(.96) rotate(-2deg);
-    filter:blur(1.7px);
-  }
-
-  54%{
-    opacity:.85;
-    transform:translate(-67%,-55%) scale(1) rotate(1deg);
-    filter:blur(1px);
-  }
-
-  70%{
-    opacity:1;
-    transform:translate(-58%,-50%) scale(1.08) rotate(-1deg);
-    filter:blur(.4px);
-  }
-
-  84%{
-    opacity:1;
-    transform:translate(-51%,-47%) scale(1.3) rotate(.5deg);
-    filter:blur(0);
-  }
-
-  93%{
-    opacity:1;
-    transform:translate(-47%,-45%) scale(2.1) rotate(0deg);
-    filter:blur(0);
-  }
-
-  100%{
-    opacity:1;
-    transform:translate(-44%,-44%) scale(4.8) rotate(0deg);
-    filter:blur(.2px);
-  }
-}
-
-
-/* THE POP */
-
-.opening-scene.pop .opening-orb{
-  animation:none;
-  opacity:0;
-}
-
-.opening-scene.pop .opening-burst{
-  animation:crystalPop .75s ease-out forwards;
-}
-
-
-@keyframes crystalPop{
-  0%{
-    opacity:0;
-    transform:translate(-50%,-50%) scale(.96);
-  }
-
-  8%{
-    opacity:1;
-    transform:translate(-50%,-50%) scale(1);
-  }
-
-  55%{
-    opacity:1;
-    transform:translate(-50%,-50%) scale(1.03);
-  }
-
-  100%{
-    opacity:0;
-    transform:translate(-50%,-50%) scale(1.08);
-  }
-}
-
-
-
-@keyframes dropletSpray{
-  0%{
-    opacity:0;
-    transform:translate(-50%,-50%) scale(.25);
-    filter:blur(0);
-  }
-
-  12%{
-    opacity:1;
-  }
-
-  55%{
-    opacity:.9;
-    transform:translate(-50%,-90%) scale(4.5);
-  }
-
-  100%{
-    opacity:0;
-    transform:translate(-50%,-145%) scale(7);
-    filter:blur(1.5px);
-  }
-}
-
-
-/* QUOTE */
-
-.opening-scene.show-first .quote-first{
-  animation:openingWords 2.8s ease forwards;
-}
-
-.opening-scene.show-now .quote-now{
-  animation:openingWords 1.9s ease forwards;
-}
-
-@keyframes openingWords{
-  0%{
-    opacity:0;
-    transform:translateY(8px);
-  }
-
-  20%{
-    opacity:1;
-    transform:translateY(0);
-  }
-
-  80%{
-    opacity:1;
-    transform:translateY(0);
-  }
-
-  100%{
-    opacity:0;
-    transform:translateY(-4px);
-  }
-}
-
-
-/* OPEN THE FOREST */
-
-.opening-scene.open-forest{
-  opacity:0;
-  visibility:hidden;
-  transition:
-    opacity 1.6s ease,
-    visibility 1.6s ease;
-}
-/* ==============================
-   SCENES
-============================== */
-
-.scene{
-  position:fixed;
-  inset:0;
-  width:100%;
-  min-height:100dvh;
-  overflow:hidden;
-  transition:
-    opacity 1.3s ease,
-    visibility 1.3s ease;
-}
-
-.hidden{
-  opacity:0;
-  visibility:hidden;
-  pointer-events:none;
-}
-
-
-/* ==============================
-   FOREST OPENING
-============================== */
-
-#forestScene{
-  background:#020506;
-  color:white;
-}
-
-.forest-image{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  object-position:center center;
-  transform:scale(1.02);
-  animation:forestBreath 12s ease-in-out infinite alternate;
-}
-
-@keyframes forestBreath{
-  from{
-    transform:scale(1.02);
-  }
-  to{
-    transform:scale(1.07);
-  }
-}
-
-.forest-shade{
-  position:absolute;
-  inset:0;
-  background:
-    linear-gradient(
-      to bottom,
-      rgba(0,0,0,.10),
-      transparent 30%,
-      transparent 66%,
-      rgba(0,0,0,.52)
-    );
-  pointer-events:none;
-}
-
-
-/* ==============================
-   EXTRA FLOATING CRYSTALS
-============================== */
-
-#crystalField{
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  z-index:3;
-}
-
-.crystal{
-  position:absolute;
-  border-radius:50%;
-
-  border:1px solid rgba(255,255,255,.65);
-
-  background:
-    radial-gradient(
-      circle at 29% 22%,
-      rgba(255,255,255,.98) 0 5%,
-      rgba(255,255,255,.40) 8%,
-      rgba(163,220,234,.16) 28%,
-      rgba(67,103,119,.13) 64%,
-      rgba(255,255,255,.08) 100%
-    );
-
-  box-shadow:
-    inset 8px 8px 15px rgba(255,255,255,.35),
-    inset -11px -13px 20px rgba(28,58,71,.22),
-    0 0 12px rgba(214,244,255,.32);
-
-  opacity:.68;
-
-  animation:
-    crystalTravel var(--time) ease-in-out infinite alternate;
-}
-
-.crystal::before{
-  content:"";
-  position:absolute;
-  width:28%;
-  height:15%;
-  left:18%;
-  top:15%;
-  border-radius:50%;
-  transform:rotate(-35deg);
-  background:rgba(255,255,255,.62);
-  filter:blur(1px);
-}
-
-@keyframes crystalTravel{
-  0%{
-    transform:
-      translate3d(0,0,0)
-      scale(var(--startScale));
-    opacity:var(--startOpacity);
-  }
-
-  50%{
-    transform:
-      translate3d(
-        var(--driftX),
-        calc(var(--driftY) * .48),
-        0
-      )
-      scale(calc(var(--startScale) * .82));
-  }
-
-  100%{
-    transform:
-      translate3d(
-        calc(var(--driftX) * 1.7),
-        var(--driftY),
-        0
-      )
-      scale(var(--endScale));
-    opacity:.15;
-  }
-}
-
-
-/* ==============================
-   FOREST COPY
-============================== */
-
-.forest-copy{
-  position:absolute;
-  z-index:7;
-  left:0;
-  right:0;
-  bottom:max(35px, env(safe-area-inset-bottom));
-  text-align:center;
-  padding:20px;
-  pointer-events:none;
-  text-shadow:
-    0 2px 5px rgba(0,0,0,.9),
-    0 0 18px rgba(0,0,0,.8);
-}
-
-.forest-copy .small{
-  font-size:11px;
-  letter-spacing:5px;
-  text-transform:uppercase;
-  opacity:.72;
-}
-
-.forest-copy h1{
-  margin:8px 0 5px;
-  font-size:clamp(38px,11vw,66px);
-  line-height:1;
-  font-weight:normal;
-}
-
-.forest-copy p{
-  margin:7px 0 0;
-  font-size:15px;
-  font-style:italic;
-  opacity:.88;
-}
-
-
-/* ==============================
-   PEACH HOTSPOT
-============================== */
-
-#peachButton{
-  position:absolute;
-  z-index:10;
-
-  /* aligns over the peach in your forest artwork */
-  left:64%;
-  top:39%;
-
-  width:24%;
-  aspect-ratio:1;
-
-  border:0;
-  border-radius:50%;
-  background:transparent;
-
-  cursor:pointer;
-
-  animation:peachPulse 2.4s ease-in-out infinite;
-}
-
-#peachButton::after{
-  content:"";
-  position:absolute;
-  inset:16%;
-  border-radius:50%;
-  box-shadow:
-    0 0 0 1px rgba(255,230,191,.18),
-    0 0 26px rgba(255,210,152,.30);
-}
-
-@keyframes peachPulse{
-  0%,100%{
-    filter:drop-shadow(0 0 1px transparent);
-    transform:scale(1);
-  }
-
-  50%{
-    filter:drop-shadow(0 0 16px rgba(255,219,172,.45));
-    transform:scale(1.04);
-  }
-}
-
-#peachButton:active{
-  transform:scale(.93);
-}
-
-
-/* crystal pop when peach is touched */
-
-.crystal.pop{
-  animation:crystalPop .65s ease forwards !important;
-}
-
-@keyframes crystalPop{
-  0%{
-    transform:scale(1);
-    opacity:.7;
-  }
-
-  45%{
-    transform:scale(1.35);
-    opacity:1;
-    filter:brightness(1.8);
-  }
-
-  100%{
-    transform:scale(.05);
-    opacity:0;
-  }
-}
-
-
-/* ==============================
-   13 GATE
-============================== */
-
-#gateScene{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-
-  padding:
-    max(35px,env(safe-area-inset-top))
-    22px
-    max(35px,env(safe-area-inset-bottom));
-
-  color:#f8f5ed;
-
-  background:
-    radial-gradient(
-      circle at 50% 35%,
-      #20313b 0%,
-      #111c22 30%,
-      #070d10 62%,
-      #020405 100%
-    );
-}
-
-.gate-inner{
-  width:min(390px,100%);
-}
-
-.gate-kicker{
-  font-size:10px;
-  letter-spacing:5px;
-  text-transform:uppercase;
-  opacity:.66;
-}
-
-.gate-inner h2{
-  margin:12px 0 3px;
-  font-size:42px;
-  font-weight:normal;
-}
-
-.gate-inner p{
-  margin:10px auto 20px;
-  max-width:310px;
-  line-height:1.6;
-  font-size:16px;
-  font-style:italic;
-  opacity:.75;
-}
-
-
-/* ==============================
-   CRYSTAL ORB
-============================== */
-
-.hour-crystal{
-  width:200px;
-  height:200px;
-
-  margin:27px auto 25px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  border-radius:50%;
-
-  border:1px solid rgba(255,255,255,.72);
-
-  font-size:91px;
-  font-style:italic;
-  font-weight:normal;
-
-  color:rgba(255,255,255,.93);
-
-  background:
-    radial-gradient(
-      circle at 30% 22%,
-      rgba(255,255,255,.98) 0 4%,
-      rgba(255,255,255,.45) 7%,
-      rgba(164,220,234,.22) 27%,
-      rgba(91,143,162,.15) 52%,
-      rgba(24,53,66,.19) 100%
-    );
-
-  box-shadow:
-    inset 15px 13px 30px rgba(255,255,255,.32),
-    inset -27px -29px 42px rgba(15,39,51,.30),
-    0 0 24px rgba(224,247,255,.38),
-    0 0 70px rgba(104,181,211,.20);
-
-  animation:orbFloat 4s ease-in-out infinite;
-}
-
-@keyframes orbFloat{
-  0%,100%{
-    transform:translateY(0) rotate(-1deg);
-  }
-
-  50%{
-    transform:translateY(-15px) rotate(1deg);
-  }
-}
-
-
-/* ==============================
-   CODE ENTRY
-============================== */
-
-.code-row{
-  width:min(300px,90vw);
-  margin:auto;
-
-  display:flex;
-  gap:9px;
-}
-
-#codeInput{
-  flex:1;
-  min-width:0;
-
-  padding:15px 20px;
-
-  border-radius:999px;
-
-  border:1px solid rgba(255,255,255,.26);
-
-  background:rgba(255,255,255,.09);
-  color:#fff;
-
-  text-align:center;
-
-  font-size:21px;
-  letter-spacing:7px;
-
-  outline:none;
-
-  backdrop-filter:blur(8px);
-  -webkit-backdrop-filter:blur(8px);
-}
-
-#codeInput::placeholder{
-  color:rgba(255,255,255,.36);
-}
-
-#unlockButton{
-  width:55px;
-  height:55px;
-
-  border-radius:50%;
-
-  border:1px solid rgba(255,255,255,.26);
-
-  background:rgba(255,255,255,.11);
-
-  color:white;
-
-  font-size:22px;
-
-  cursor:pointer;
-
-  backdrop-filter:blur(8px);
-  -webkit-backdrop-filter:blur(8px);
-}
-
-#errorMessage{
-  min-height:30px;
-  margin-top:13px;
-
-  font-size:14px;
-  font-style:italic;
-
-  color:#e6c2c4;
-}
-
-
-/* ==============================
-   CLOCK TRANSITION
-============================== */
-
-#clockOverlay{
-  position:fixed;
-  inset:0;
-  z-index:100;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  background:#030405;
-
-  opacity:0;
-  visibility:hidden;
-
-  transition:opacity 1s ease;
-}
-
-#clockOverlay.show{
-  opacity:1;
-  visibility:visible;
-}
-
 .clock-face{
-  width:220px;
-  height:220px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  border-radius:50%;
-
-  border:
-    9px solid rgba(170,141,91,.65);
-
-  outline:
-    2px solid rgba(255,230,181,.35);
-
-  color:#dac69b;
-
-  font-size:105px;
-
-  background:
-    radial-gradient(
-      circle,
-      #27231d 0%,
-      #151310 63%,
-      #080807 100%
-    );
-
-  box-shadow:
-    0 0 60px rgba(200,170,110,.18),
-    inset 0 0 40px rgba(0,0,0,.8);
-
-  animation:clockGlow 2s ease-in-out infinite alternate;
+  width:min(62vw,260px);aspect-ratio:1;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  border:10px solid rgba(170,141,91,.7);outline:2px solid rgba(255,230,181,.35);
+  color:#dac69b;font-size:clamp(90px,27vw,130px);
+  background:radial-gradient(circle,#27231d 0,#151310 63%,#080807 100%);
+  box-shadow:0 0 70px rgba(200,170,110,.22),inset 0 0 40px rgba(0,0,0,.85)
 }
-
-@keyframes clockGlow{
-  from{
-    box-shadow:
-      0 0 20px rgba(200,170,110,.10),
-      inset 0 0 40px rgba(0,0,0,.8);
-  }
-
-  to{
-    box-shadow:
-      0 0 70px rgba(200,170,110,.30),
-      inset 0 0 40px rgba(0,0,0,.8);
-  }
+#jarethWords{
+  align-items:flex-end;padding-bottom:max(54px,env(safe-area-inset-bottom));
+  font-size:clamp(17px,4.8vw,25px);line-height:1.5;background:linear-gradient(transparent 55%,rgba(0,0,0,.76))
 }
-
-
-/* ==============================
-   FLOATING CRYSTALS - INVITATION
-============================== */
-
-.invite-crystals{
-  position:fixed;
-  inset:0;
-  z-index:5;
-  overflow:hidden;
-  pointer-events:none;
+.fadeIn{animation:fadeIn .8s ease forwards}.fadeOut{animation:fadeOut .7s ease forwards}
+.orbPlay{animation:orbApproach 4.6s cubic-bezier(.22,.61,.36,1) forwards}
+.burstPlay{animation:burst .75s ease-out forwards}
+.goblinPlay{animation:goblinHit 1.65s ease forwards}
+.clockPlay{animation:fadeIn 1.2s ease forwards}
+@keyframes fadeIn{to{opacity:1}}
+@keyframes fadeOut{from{opacity:1}to{opacity:0}}
+@keyframes orbApproach{
+  0%{opacity:0;transform:translate(-115%,-78%) scale(.9);filter:blur(3px)}
+  25%{opacity:.5;transform:translate(-88%,-67%) scale(.94);filter:blur(2px)}
+  55%{opacity:.9;transform:translate(-67%,-55%) scale(1);filter:blur(1px)}
+  82%{opacity:1;transform:translate(-51%,-47%) scale(1.3);filter:blur(0)}
+  100%{opacity:1;transform:translate(-44%,-44%) scale(4.8);filter:blur(.2px)}
 }
+@keyframes burst{0%{opacity:0;transform:translate(-50%,-50%) scale(.96)}10%{opacity:1}65%{opacity:1;transform:translate(-50%,-50%) scale(1.03)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.08)}}
+@keyframes goblinHit{0%{opacity:0;transform:scale(1.08)}10%{opacity:1}78%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(.995)}}
 
-.invite-crystal{
-  position:absolute;
-  left:-180px;
-  bottom:var(--y);
+/* FOREST */
+#forestScene{z-index:20;background:#020506;color:#fff}
+.forest-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;animation:forestBreath 12s ease-in-out infinite alternate}
+@keyframes forestBreath{from{transform:scale(1.02)}to{transform:scale(1.07)}}
+.forest-shade{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.1),transparent 30%,transparent 66%,rgba(0,0,0,.55))}
+#crystalField{position:absolute;inset:0;pointer-events:none;z-index:3}
+.crystal{position:absolute;border-radius:50%;border:1px solid rgba(255,255,255,.65);background:radial-gradient(circle at 29% 22%,rgba(255,255,255,.98) 0 5%,rgba(255,255,255,.4) 8%,rgba(163,220,234,.16) 28%,rgba(67,103,119,.13) 64%,rgba(255,255,255,.08));box-shadow:inset 8px 8px 15px rgba(255,255,255,.35),inset -11px -13px 20px rgba(28,58,71,.22),0 0 12px rgba(214,244,255,.32);opacity:.68;animation:floatCrystal var(--time) ease-in-out infinite alternate}
+@keyframes floatCrystal{from{transform:translate(0,0) scale(.8)}to{transform:translate(var(--dx),var(--dy)) scale(.45);opacity:.2}}
+#peachButton{position:absolute;z-index:10;left:64%;top:39%;width:24%;aspect-ratio:1;border:0;border-radius:50%;background:transparent;cursor:pointer;animation:peachPulse 2.4s ease-in-out infinite}
+#peachButton::after{content:"";position:absolute;inset:16%;border-radius:50%;box-shadow:0 0 0 1px rgba(255,230,191,.18),0 0 26px rgba(255,210,152,.3)}
+@keyframes peachPulse{50%{filter:drop-shadow(0 0 16px rgba(255,219,172,.45));transform:scale(1.04)}}
+.forest-copy{position:absolute;z-index:7;left:0;right:0;bottom:max(35px,env(safe-area-inset-bottom));text-align:center;padding:20px;pointer-events:none;text-shadow:0 2px 5px #000,0 0 18px #000}
+.forest-copy .small{font-size:11px;letter-spacing:5px;text-transform:uppercase;opacity:.72}
+.forest-copy h1{margin:8px 0 5px;font-size:clamp(38px,11vw,66px);line-height:1;font-weight:normal}
+.forest-copy p{margin:7px 0 0;font-size:15px;font-style:italic;opacity:.88}
 
-  width:var(--size);
-  height:var(--size);
-  border-radius:50%;
+/* GATE */
+#gateScene{z-index:30;display:flex;align-items:center;justify-content:center;text-align:center;padding:35px 22px;color:#f8f5ed;background:radial-gradient(circle at 50% 35%,#20313b 0,#111c22 30%,#070d10 62%,#020405 100%)}
+.gate-inner{width:min(390px,100%)}.gate-kicker{font-size:10px;letter-spacing:5px;text-transform:uppercase;opacity:.66}
+.gate-inner h2{margin:12px 0 3px;font-size:42px;font-weight:normal}.gate-inner p{margin:10px auto 20px;max-width:310px;line-height:1.6;font-size:16px;font-style:italic;opacity:.75}
+.hour-crystal{width:200px;height:200px;margin:27px auto 25px;display:flex;align-items:center;justify-content:center;border-radius:50%;border:1px solid rgba(255,255,255,.72);font-size:91px;font-style:italic;color:rgba(255,255,255,.93);background:radial-gradient(circle at 30% 22%,rgba(255,255,255,.98) 0 4%,rgba(255,255,255,.45) 7%,rgba(164,220,234,.22) 27%,rgba(91,143,162,.15) 52%,rgba(24,53,66,.19));box-shadow:inset 15px 13px 30px rgba(255,255,255,.32),inset -27px -29px 42px rgba(15,39,51,.3),0 0 70px rgba(104,181,211,.2);animation:orbFloat 4s ease-in-out infinite}
+@keyframes orbFloat{50%{transform:translateY(-15px)}}
+.code-row{width:min(300px,90vw);margin:auto;display:flex;gap:9px}
+#codeInput{flex:1;min-width:0;padding:15px 20px;border-radius:999px;border:1px solid rgba(255,255,255,.26);background:rgba(255,255,255,.09);color:#fff;text-align:center;font-size:21px;letter-spacing:7px;outline:none}
+#unlockButton{width:55px;height:55px;border-radius:50%;border:1px solid rgba(255,255,255,.26);background:rgba(255,255,255,.11);color:#fff;font-size:22px;cursor:pointer}
+#errorMessage{min-height:30px;margin-top:13px;font-size:14px;font-style:italic;color:#e6c2c4}
 
-  border:1px solid rgba(255,255,255,.75);
-
-  background:
-    radial-gradient(
-      circle at 28% 22%,
-      rgba(255,255,255,.98) 0 4%,
-      rgba(255,255,255,.50) 7%,
-      rgba(194,229,239,.20) 25%,
-      rgba(105,154,174,.12) 55%,
-      rgba(255,255,255,.08) 100%
-    );
-
-  box-shadow:
-    inset 10px 10px 18px rgba(255,255,255,.35),
-    inset -12px -15px 25px rgba(48,80,93,.20),
-    0 0 15px rgba(224,247,255,.35);
-
-  opacity:var(--opacity);
-
-  animation:
-    inviteCrystalDrift var(--speed) linear infinite;
-
-  animation-delay:var(--delay);
-}
-
-.invite-crystal::before{
-  content:"";
-  position:absolute;
-
-  width:28%;
-  height:14%;
-
-  left:19%;
-  top:16%;
-
-  border-radius:50%;
-
-  transform:rotate(-35deg);
-
-  background:rgba(255,255,255,.72);
-
-  filter:blur(1px);
-}
-
-@keyframes inviteCrystalDrift{
-
-  0%{
-    transform:
-      translate3d(0,0,0)
-      scale(.78);
-  }
-
-  35%{
-    transform:
-      translate3d(
-        calc(35vw + 120px),
-        -18px,
-        0
-      )
-      scale(1);
-  }
-
-  70%{
-    transform:
-      translate3d(
-        calc(70vw + 180px),
-        10px,
-        0
-      )
-      scale(.88);
-  }
-
-  100%{
-    transform:
-      translate3d(
-        calc(100vw + 360px),
-        -25px,
-        0
-      )
-      scale(.62);
-
-    opacity:.15;
-  }
-}
-  
-  
-/* ==============================
-   INVITATION
-============================== */
-
-#invitationScene{
-  position:fixed;
-  inset:0;
-
-  overflow-y:auto;
-
-  background:
-    radial-gradient(
-      circle at 50% 20%,
-      #fff9ed,
-      #d8c3a3 55%,
-      #7d684e 100%
-    );
-
-  -webkit-overflow-scrolling:touch;
-}
-
-.invite-wrap{
-  min-height:100%;
-  display:flex;
-  justify-content:center;
-  align-items:flex-start;
-
-  padding:
-    max(18px,env(safe-area-inset-top))
-    12px
-    max(28px,env(safe-area-inset-bottom));
-}
-
-.invite-image{
-  display:block;
-
-  width:min(100%,720px);
-  height:auto;
-
-  border-radius:3px;
-
-  box-shadow:
-    0 20px 65px rgba(42,29,18,.42);
-
-  animation:inviteReveal 2.4s cubic-bezier(.18,.68,.2,1) both;
-}
-
-@keyframes inviteReveal{
-  0%{
-    opacity:0;
-    transform:scale(.94);
-    filter:blur(12px) brightness(1.5);
-  }
-
-  100%{
-    opacity:1;
-    transform:scale(1);
-    filter:blur(0) brightness(1);
-  }
-}
-
-
-/* ==============================
-   REDUCED MOTION
-============================== */
-
-@media (prefers-reduced-motion:reduce){
-  *,
-  *::before,
-  *::after{
-    animation-duration:.01ms !important;
-    animation-iteration-count:1 !important;
-    scroll-behavior:auto !important;
-  }
-}
+/* FINAL INVITATION */
+#invitationScene{z-index:40;overflow-y:auto;background:radial-gradient(circle at 50% 20%,#fff9ed,#d8c3a3 55%,#7d684e 100%);-webkit-overflow-scrolling:touch}
+.invite-wrap{min-height:100%;display:flex;justify-content:center;align-items:flex-start;padding:max(18px,env(safe-area-inset-top)) 12px max(28px,env(safe-area-inset-bottom))}
+.invite-image{display:block;width:min(100%,720px);height:auto;border-radius:3px;box-shadow:0 20px 65px rgba(42,29,18,.42);animation:inviteReveal 2.4s cubic-bezier(.18,.68,.2,1) both}
+@keyframes inviteReveal{from{opacity:0;transform:scale(.94);filter:blur(12px) brightness(1.5)}to{opacity:1;transform:scale(1);filter:none}}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important}}
 </style>
 </head>
-
-
 <body>
-<!-- ================================
-     ACT I: CINEMATIC OPENING
-================================= -->
 
-<section id="openingScene" class="scene opening-scene">
-
-  <div class="opening-orb" id="openingOrb"></div>
-
-  <div class="opening-burst" id="openingBurst"></div>
-
-  <div class="opening-quote" id="openingQuote">
-    <div class="quote-first">
-      I wish the goblins would come<br>
-      and take you away…
-    </div>
-
-    <div class="quote-now">
-      Right now.
-    </div>
-  </div>
-
+<section id="cinematic" class="scene">
+  <div id="loadingWords">Through dangers untold…</div>
+  <div id="openingOrb"></div>
+  <div id="openingBurst"></div>
+  <div id="sarahWords">I wish the goblins would come<br>and take you away…</div>
+  <div id="rightNow">Right now.</div>
+  <img id="goblins" src="IMG_0019.jpeg" alt="">
+  <div id="cinemaClock"><div class="clock-face">13</div></div>
+  <div id="jarethWords">You have thirteen hours in which to solve the labyrinth, before your baby brother becomes one of us… forever.</div>
+  <div id="soundPrompt">Tap once for sound</div>
 </section>
 
-<!-- =========================================
-     FRONT: ENCHANTED FOREST
-========================================= -->
-
-<section id="forestScene" class="scene">
-
-  <img
-    class="forest-image"
-    src="CB90EC85-190C-400B-8304-22CD03598AD0.png"
-    alt="Enchanted forest with crystal spheres and a bitten peach"
-  >
-
-  <div class="forest-shade"></div>
-
-  <div id="crystalField"></div>
-
-  <button
-    id="peachButton"
-    type="button"
-    aria-label="Touch the bitten peach"
-  ></button>
-
-  <div class="forest-copy">
-
-    <div class="small">
-      Through dangers untold
-    </div>
-
-    <h1>
-      The Thirteenth Hour
-    </h1>
-
-    <p>
-      Touch the peach.
-    </p>
-
-  </div>
-
+<section id="forestScene" class="scene hidden">
+  <img class="forest-image" src="CB90EC85-190C-400B-8304-22CD03598AD0.png" alt="Enchanted forest with crystal spheres and a bitten peach">
+  <div class="forest-shade"></div><div id="crystalField"></div>
+  <button id="peachButton" type="button" aria-label="Touch the bitten peach"></button>
+  <div class="forest-copy"><div class="small">Through dangers untold</div><h1>The Thirteenth Hour</h1><p>Touch the peach.</p></div>
 </section>
 
-
-
-<!-- =========================================
-     CODE 13
-========================================= -->
-
-<section
-  id="gateScene"
-  class="scene hidden"
->
-
+<section id="gateScene" class="scene hidden">
   <div class="gate-inner">
-
-    <div class="gate-kicker">
-      The clock is waiting
-    </div>
-
-    <h2>
-      The Thirteenth Hour
-    </h2>
-
-    <div class="hour-crystal">
-      13
-    </div>
-
-    <p>
-      The way forward opens only at the hour
-      that does not belong on an ordinary clock.
-    </p>
-
+    <div class="gate-kicker">The clock is waiting</div>
+    <h2>The Thirteenth Hour</h2>
+    <div class="hour-crystal">13</div>
+    <p>The way forward opens only at the hour that does not belong on an ordinary clock.</p>
     <div class="code-row">
-
-      <input
-        id="codeInput"
-        type="text"
-        inputmode="numeric"
-  z      autocomplete="off"
-        maxlength="2"
-        placeholder="••"
-        aria-label="Enter the code"
-      >
-
-      <button
-        id="unlockButton"
-        type="button"
-        aria-label="Unlock invitation"
-      >
-        ✦
-      </button>
-
+      <input id="codeInput" type="text" inputmode="numeric" autocomplete="off" maxlength="2" placeholder="••" aria-label="Enter the code">
+      <button id="unlockButton" type="button" aria-label="Unlock invitation">✦</button>
     </div>
-
     <div id="errorMessage"></div>
-
   </div>
-
 </section>
 
-
-
-<!-- =========================================
-     CLOCK CHIME TRANSITION
-========================================= -->
-
-<div id="clockOverlay">
-
-  <div class="clock-face">
-    13
-  </div>
-
-</div>
-
-
-
-<!-- =========================================
-     FINAL INVITATION
-========================================= -->
-
-<section
-  id="invitationScene"
-  class="scene hidden"
-><div class="invite-crystals" aria-hidden="true">
-
-  <div class="invite-crystal"
-       style="--size:42px; --y:8%; --speed:15s; --delay:-2s; --opacity:.48;">
-  </div>
-
-  <div class="invite-crystal"
-       style="--size:78px; --y:17%; --speed:20s; --delay:-11s; --opacity:.58;">
-  </div>
-
-  <div class="invite-crystal"
-       style="--size:125px; --y:5%; --speed:25s; --delay:-17s; --opacity:.68;">
-  </div>
-
-  <div class="invite-crystal"
-       style="--size:55px; --y:27%; --speed:18s; --delay:-8s; --opacity:.50;">
-  </div>
-
-  <div class="invite-crystal"
-       style="--size:95px; --y:13%; --speed:23s; --delay:-4s; --opacity:.62;">
-  </div>
-
-  <div class="invite-crystal"
-       style="--size:30px; --y:34%; --speed:14s; --delay:-10s; --opacity:.40;">
-  </div>
-
-</div>
-
+<section id="invitationScene" class="scene hidden">
   <div class="invite-wrap">
-
-    <img
-      class="invite-image"
-      src="A52C21A8-4C9A-4CB4-81DC-D667B175E158.png"
-      alt="Vonnie's 45th Birthday Celebration invitation"
-    >
-
+    <img class="invite-image" src="A52C21A8-4C9A-4CB4-81DC-D667B175E158.png" alt="Vonnie's 45th Birthday Celebration invitation">
   </div>
-
 </section>
 
-
-
-<!-- REAL GRANDFATHER CLOCK RECORDING -->
-
-<audio
-  id="grandfatherClock"
-  preload="auto"
-  playsinline
->
-  <source
-    src="designerschoice-clockchim-cu_grandfather-clock-chimes-strikes-12_nicholas-judy_tdc-493269.mp3"
-    type="audio/mpeg"
-  >
-</audio>
-
-
+<audio id="sarahAudio" preload="auto" playsinline src="Sarah-right-now.m4a"></audio>
+<audio id="jarethAudio" preload="auto" playsinline src="Jareth - 13hrs .m4a"></audio>
+<audio id="grandfatherClock" preload="auto" playsinline src="designerschoice-clockchim-cu_grandfather-clock-chimes-strikes-12_nicholas-judy_tdc-493269.mp3"></audio>
 
 <script>
-/* ==============================
-   ACT I: CINEMATIC OPENING
-============================== */
+const $=id=>document.getElementById(id);
+const cinematic=$("cinematic"),loading=$("loadingWords"),orb=$("openingOrb"),burst=$("openingBurst"),
+sarahWords=$("sarahWords"),rightNow=$("rightNow"),goblins=$("goblins"),cinemaClock=$("cinemaClock"),
+jarethWords=$("jarethWords"),soundPrompt=$("soundPrompt"),sarahAudio=$("sarahAudio"),jarethAudio=$("jarethAudio"),
+forestScene=$("forestScene"),gateScene=$("gateScene"),invitationScene=$("invitationScene"),
+peachButton=$("peachButton"),codeInput=$("codeInput"),unlockButton=$("unlockButton"),
+errorMessage=$("errorMessage"),grandfatherClock=$("grandfatherClock"),crystalField=$("crystalField");
 
-const openingScene =
-  document.getElementById("openingScene");
+let started=false, soundUnlocked=false;
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+const show=(el)=>{el.classList.remove("fadeOut");el.classList.add("fadeIn")};
+const hide=(el)=>{el.classList.remove("fadeIn");el.classList.add("fadeOut")};
 
-if (openingScene) {
-
-  /* tiny orb appears and approaches */
-  setTimeout(() => {
-    openingScene.classList.add("play");
-  }, 700);
-
-  /* orb fills the screen — POP */
-  setTimeout(() => {
-    openingScene.classList.add("pop");
-  }, 5300);
-
-  /* brief darkness, then first words */
-  setTimeout(() => {
-    openingScene.classList.add("show-first");
-  }, 6400);
-
-  /* "Right now." */
-  setTimeout(() => {
-    openingScene.classList.add("show-now");
-  }, 9400);
-
-  /* dissolve into existing forest */
-  setTimeout(() => {
-    openingScene.classList.add("open-forest");
-  }, 11800);
-
+async function unlockSound(){
+  soundUnlocked=true;
+  soundPrompt.style.display="none";
+  // A direct user gesture gives mobile Safari permission for later audio.
+  try{
+    sarahAudio.volume=0;
+    await sarahAudio.play();
+    sarahAudio.pause(); sarahAudio.currentTime=0; sarahAudio.volume=1;
+  }catch(e){}
 }
-/* =========================================
-   ELEMENTS
-========================================= */
+soundPrompt.addEventListener("click",unlockSound,{once:true});
+document.addEventListener("pointerdown",()=>{if(!soundUnlocked) unlockSound()},{once:true});
 
-const forestScene =
-  document.getElementById("forestScene");
+async function runCinema(){
+  if(started)return; started=true;
 
-const gateScene =
-  document.getElementById("gateScene");
+  show(loading); await wait(1700); hide(loading); await wait(750);
 
-const invitationScene =
-  document.getElementById("invitationScene");
+  orb.classList.add("orbPlay");
+  // Try sound during the visual. Desktop may allow it; mobile may require the single tap prompt.
+  await wait(3900);
+  burst.classList.add("burstPlay");
+  await wait(850);
 
-const peachButton =
-  document.getElementById("peachButton");
+  show(sarahWords);
+  try{ sarahAudio.currentTime=0; await sarahAudio.play(); }catch(e){ soundPrompt.style.opacity=1; }
+  await wait(3500);
+  hide(sarahWords);
 
-const codeInput =
-  document.getElementById("codeInput");
+  // "Right now" is near the end of the uploaded Sarah clip.
+  await wait(1850);
+  show(rightNow);
+  await wait(650);
+  hide(rightNow);
+  goblins.classList.add("goblinPlay");
+  await wait(1750);
 
-const unlockButton =
-  document.getElementById("unlockButton");
+  // Blank black beat.
+  await wait(900);
 
-const errorMessage =
-  document.getElementById("errorMessage");
+  cinemaClock.classList.add("clockPlay");
+  show(jarethWords);
+  try{ jarethAudio.currentTime=0; await jarethAudio.play(); }catch(e){ soundPrompt.style.opacity=1; }
 
-const grandfatherClock =
-  document.getElementById("grandfatherClock");
+  // Let the uploaded Jareth clip drive the duration when metadata is available.
+  const jarethLength = Number.isFinite(jarethAudio.duration) && jarethAudio.duration>1 ? jarethAudio.duration*1000 : 10500;
+  await wait(jarethLength);
 
-const clockOverlay =
-  document.getElementById("clockOverlay");
+  hide(jarethWords);
+  hide(cinemaClock);
+  await wait(900);
 
-const crystalField =
-  document.getElementById("crystalField");
+  // Clock chime before the password gate.
+  try{grandfatherClock.currentTime=0;await grandfatherClock.play();}catch(e){}
+  await wait(3100);
 
-
-
-/* =========================================
-   CREATE FLOATING GLASS CRYSTALS
-
-   Different sizes, directions and speeds
-   make them feel like they are floating
-   toward and away from the viewer.
-========================================= */
+  cinematic.classList.add("hidden");
+  gateScene.classList.remove("hidden");
+  setTimeout(()=>codeInput.focus(),700);
+}
+window.addEventListener("load",()=>setTimeout(runCinema,250));
 
 function createCrystals(){
-
-  const amount = 15;
-
-  for(let i = 0; i < amount; i++){
-
-    const crystal =
-      document.createElement("div");
-
-    crystal.className = "crystal";
-
-    const size =
-      Math.floor(Math.random() * 62) + 22;
-
-    const left =
-      Math.random() * 92;
-
-    const top =
-      Math.random() * 90;
-
-    const time =
-      Math.random() * 8 + 8;
-
-    const driftX =
-      (Math.random() * 120 - 60) + "px";
-
-    const driftY =
-      -(Math.random() * 180 + 65) + "px";
-
-    const startScale =
-      Math.random() * .6 + .6;
-
-    const endScale =
-      Math.random() * .3 + .15;
-
-    const startOpacity =
-      Math.random() * .42 + .34;
-
-
-    crystal.style.width =
-      size + "px";
-
-    crystal.style.height =
-      size + "px";
-
-    crystal.style.left =
-      left + "%";
-
-    crystal.style.top =
-      top + "%";
-
-    crystal.style.setProperty(
-      "--time",
-      time + "s"
-    );
-
-    crystal.style.setProperty(
-      "--driftX",
-      driftX
-    );
-
-    crystal.style.setProperty(
-      "--driftY",
-      driftY
-    );
-
-    crystal.style.setProperty(
-      "--startScale",
-      startScale
-    );
-
-    crystal.style.setProperty(
-      "--endScale",
-      endScale
-    );
-
-    crystal.style.setProperty(
-      "--startOpacity",
-      startOpacity
-    );
-
-    crystal.style.animationDelay =
-      (-Math.random() * time) + "s";
-
-    crystalField.appendChild(crystal);
-
+  for(let i=0;i<15;i++){
+    const c=document.createElement("div");c.className="crystal";
+    const size=Math.floor(Math.random()*62)+22;
+    c.style.width=c.style.height=size+"px";
+    c.style.left=Math.random()*92+"%";c.style.top=Math.random()*90+"%";
+    c.style.setProperty("--time",(Math.random()*8+8)+"s");
+    c.style.setProperty("--dx",(Math.random()*120-60)+"px");
+    c.style.setProperty("--dy",-(Math.random()*180+65)+"px");
+    c.style.animationDelay=(-Math.random()*10)+"s";
+    crystalField.appendChild(c);
   }
-
 }
-
 createCrystals();
 
-
-
-/* =========================================
-   TOUCH PEACH
-
-   Crystals pop away before the gate opens.
-========================================= */
-
-peachButton.addEventListener(
-  "click",
-  openGate
-);
-
-function openGate(){
-
-  peachButton.disabled = true;
-
-  const crystals =
-    document.querySelectorAll(".crystal");
-
-  crystals.forEach((crystal,index)=>{
-
-    setTimeout(()=>{
-
-      crystal.classList.add("pop");
-
-    },index * 32);
-
-  });
-
-
-  setTimeout(()=>{
-
-    forestScene.classList.add("hidden");
-
-    gateScene.classList.remove("hidden");
-
-  },850);
-
-
-  setTimeout(()=>{
-
-    codeInput.focus();
-
-  },1550);
-
-}
-
-
-
-/* =========================================
-   ENTER KEY SUPPORT
-========================================= */
-
-codeInput.addEventListener(
-  "keydown",
-  function(event){
-
-    if(event.key === "Enter"){
-      unlockInvitation();
-    }
-
-  }
-);
-
-
-
-unlockButton.addEventListener(
-  "click",
-  unlockInvitation
-);
-
-
-
-/* =========================================
-   UNLOCK WITH CODE 13
-========================================= */
+peachButton.addEventListener("click",()=>{
+  forestScene.classList.add("hidden");
+  gateScene.classList.remove("hidden");
+  setTimeout(()=>codeInput.focus(),700);
+});
 
 function unlockInvitation(){
-
-  const value =
-    codeInput.value.trim();
-
-  if(value !== "13"){
-
-    errorMessage.textContent =
-      "The clock has not reached its thirteenth hour.";
-
-    codeInput.value = "";
-
-    return;
-
+  if(codeInput.value.trim()!=="13"){
+    errorMessage.textContent="The clock has not reached its thirteenth hour.";
+    codeInput.value="";return;
   }
-
-
-  errorMessage.textContent = "";
-
-  unlockButton.disabled = true;
-  codeInput.disabled = true;
-
-
-  /*
-    IMPORTANT FOR IPHONE:
-    Audio begins directly from this tap.
-    Safari allows audio because the guest
-    physically pressed the unlock button.
-  */
-
-  grandfatherClock.currentTime = 0;
-
-  grandfatherClock
-    .play()
-    .catch(()=>{});
-
-
-  /* fade the gate */
-
+  errorMessage.textContent="";
   gateScene.classList.add("hidden");
-
-
-  /* reveal clock */
-
-  setTimeout(()=>{
-
-    clockOverlay.classList.add("show");
-
-  },350);
-
-
-  /*
-    Let the REAL grandfather clock chime
-    play for a moment before the invitation
-    appears.
-  */
-
-  setTimeout(()=>{
-
-    invitationScene.classList.remove("hidden");
-
-  },4300);
-
-
-  setTimeout(()=>{
-
-    clockOverlay.classList.remove("show");
-
-  },5000);
-
+  invitationScene.classList.remove("hidden");
+  document.body.style.overflow="auto";
 }
-
-
-
-/* =========================================
-   KEEP INPUT NUMERIC
-========================================= */
-
-codeInput.addEventListener(
-  "input",
-  function(){
-
-    this.value =
-      this.value.replace(/[^0-9]/g,"");
-
-  }
-);
-
+unlockButton.addEventListener("click",unlockInvitation);
+codeInput.addEventListener("keydown",e=>{if(e.key==="Enter")unlockInvitation()});
+codeInput.addEventListener("input",function(){this.value=this.value.replace(/[^0-9]/g,"")});
 </script>
-
 </body>
 </html>
