@@ -185,7 +185,18 @@ button{
 
   background:#000;
 }
-
+#jarethImage{
+  position:absolute;
+  top:7%;
+  left:50%;
+  transform:translateX(-50%);
+  width:min(86vw,430px);
+  max-height:58vh;
+  object-fit:contain;
+  object-position:center;
+  border-radius:8px;
+  box-shadow:0 0 35px rgba(218,184,113,.18);
+}
 #jarethWords{
   position:absolute;
 
@@ -696,18 +707,24 @@ so the clock artwork remains visible.
 
   <!-- JARETH AUDIO PLAYS ON BLACK -->
 
-  <div id="jarethScene">
+<div id="jarethScene">
 
-    <div id="jarethWords">
+  <img
+    id="jarethImage"
+    src="/thirteenth-hour/B6A2733A-4A43-4F26-98D9-850CE869D1F1.png"
+    alt=""
+  >
 
-      You have thirteen hours in which
-      to solve the labyrinth, before your
-      baby brother becomes one of us...
-      forever.
+  <div id="jarethWords">
 
-    </div>
+    You have thirteen hours in which
+    to solve the labyrinth, before your
+    baby brother becomes one of us...
+    forever.
 
   </div>
+
+</div>
 
 
   <button
